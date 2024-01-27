@@ -1,0 +1,35 @@
+
+header {
+    .header-menu {
+        .row-header-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+
+            .header-setpost {
+
+            }
+
+            .header-sosial {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 15px;
+
+                span {
+                    &.ss-instagram {
+                        &::after {
+                            width: 22px;
+                        }
+                    }
+                    &.ss-youtube {
+                        &::after {
+                            width: 23px;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

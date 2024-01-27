@@ -26,9 +26,20 @@
 		<div id="page" class="site">
 			<header id="masthead" class="site-header">
 				<div class="container">
-					<div class="header-menu">
+					<div class="header-menu mts-content">
 					
-						header
+						<div class="row-header-top">
+							<div class="header-setpost">
+								<span class="header-post-date">19 January 2024</span>
+								<span class="header-post"><strong>Latest : </strong><a href="/"> Profil Perpustakaan Harun Al Rasyid MAN 2 Kudus</a></span>
+							</div>
+
+							<div class="header-sosial">
+								<span class="set-sosial ss-facebook"></span>
+								<span class="set-sosial ss-instagram"></span>
+								<span class="set-sosial ss-youtube"></span>
+							</div>
+						</div>
 
 					</div>
 				</div>
