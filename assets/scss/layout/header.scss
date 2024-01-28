@@ -97,18 +97,31 @@ header {
                     }
 
                     .setmenu {
+                        display: none;
                         position: fixed;
                         background-color: $color-white;
                         top: 0;
-                        right: 0;
+                        right: -100%;
                         max-width: 300px;
                         width: 100%;
                         height: 100vh;
                         z-index: 9;
                         overflow: auto;
 
-                        .close-menu {
+                        &.active_menu {
+                            display: block;
+                            animation: slideBar 0.3s ease-in-out forwards;
+                        }
 
+                        .close-menu {
+                            padding: 12px;
+                            border-bottom: 1px solid #ddd;
+                            text-align: left;
+                            display: grid;
+
+                            svg {
+                                margin: 8px;
+                            }
                         }
 
                         ul {
@@ -118,19 +131,93 @@ header {
                             
                             li {
                                 list-style: none;
+                                cursor: pointer;
 
                                 a {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
                                     font-weight: 700;
                                     text-decoration: unset;
                                     padding: 20px;
                                     border-bottom: 1px solid #ddd;
-                                    display: block;
+
+                                    &::before {
+                                        content: '';
+                                    }
+
+                                    &:hover {
+                                        background-color: $color-green;
+                                        color: #fff;
+
+                                        &::before {
+                                            filter: brightness(10);
+                                        }
+                                    }
+                                }
+
+                                &.menu-item-has-children {
+                                    a {
+                                        &::before {
+                                            content: '';
+                                            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="%23108448" stroke-width="1.2" stroke-linecap="round"/></svg>');
+                                            background-position: center;
+                                            background-repeat: no-repeat;
+                                            background-size: contain;
+                                            display: block;
+                                            width: 15px;
+                                            height: 15px;
+                                            margin-left: 5px;
+                                        }
+                                    }
+                                }
+
+                                &.current_page_item {
+                                    a {
+                                        background-color: $color-green;
+                                        color: $color-white;
+
+                                        &::before {
+                                            filter: brightness(10);
+                                        }
+                                    }
                                 }
                             }
 
                             .sub-menu {
                                 padding-left: 0;
                                 display: none;
+
+                                li {
+                                    a {
+                                        padding-right: 40px;
+                                        color: $color-gray;
+                                        font-weight: 600;
+
+                                        &:hover {
+                                            color: $color-white;
+                                        }
+
+                                        &::before {
+                                            background: unset;
+                                        }
+                                    }
+
+                                    &.current_page_item {
+                                        a {
+                                            background-color: $color-green;
+                                            color: $color-white;
+    
+                                            &::before {
+                                                filter: brightness(10);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &.active {
+                                    display: block;
+                                }
                             }
                         }
                     }
@@ -144,6 +231,11 @@ header {
                         z-index: 1;
                         left: 0;
                         top: 0;
+                        display: none;
+
+                        &.active {
+                            display: block;
+                        }
                     }
                 }
 
@@ -192,6 +284,7 @@ header {
                             display: flex;
                             align-items: center;
                             position: relative;
+                            cursor: pointer;
 
                             a {
                                 text-decoration: unset;
@@ -254,6 +347,13 @@ header {
                                     }
                                 }
 
+                                &.current_page_item {
+                                    background-color: $color-green !important;
+                                    a {
+                                        color: $color-white;
+                                    }
+                                }
+
                                 a {
                                     color: $color-black;
                                     display: block;
@@ -305,5 +405,14 @@ header {
 .admin-bar {
     .setmenu {
         top: 45px !important;
+    }
+}
+
+@keyframes slideBar {
+    from {
+        right: -100%;
+    }
+    to {
+        right: 0;
     }
 }
