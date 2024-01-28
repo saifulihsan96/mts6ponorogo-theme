@@ -24,6 +24,10 @@ strong {
 a {
     text-underline-offset: 3px;
     color: $color-green;
+
+    &:hover {
+        color: #053f21;
+    }
 }
 
 .mts-container {

@@ -1,0 +1,145 @@
+.footer-main {
+
+    .top-footer {
+        background-color: $color-green;
+        color: $color-white;
+        padding: 70px 0;
+
+        a {
+            color: $color-white;
+            &:hover {
+                color: $color-yellow;
+            }
+        }
+
+        .row-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            @include responsive( phone ) {
+                flex-direction: column;
+            }
+
+            .column {
+                .set-row {
+                    margin-top: 20px;
+                    .text-head {
+                        color: $color-yellow;
+                        font-size: 20px;
+                        font-weight: 700;
+                        margin-bottom: 7px;
+                    }
+
+                    ul {
+                        margin: 0;
+                        padding-left: 0;
+                        list-style: none;
+
+                        li {
+                            margin-bottom: 10px;
+                            a {
+                                font-weight: 600;
+                                text-underline-offset: 5px;
+                            }
+                        }
+                    }
+                }
+
+                &:first-child {
+                    max-width: 500px;
+                    width: 100%;
+
+                    .set-row {
+                        &:last-child {
+                            display: grid;
+                            grid-gap: 5px;
+                            a {
+                                text-decoration: unset;
+                                font-weight: 700;
+                            }
+                        }
+                    }
+                }
+
+                &:nth-child(2) {
+                    max-width: 240px;
+                    width: 100%;
+                }
+
+                &:last-child {
+                    max-width: 240px;
+                    width: 100%;
+
+                    .set-row {
+                        ul {
+                            li {
+                                padding: 10px 0;
+                                margin-bottom: 0;
+                                border-bottom: 1px solid #ffffff4d;
+                                a {
+                                    font-weight: 300;
+                                    text-decoration: unset;
+                                }
+                                &:first-child {
+                                    padding-top: 0px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .bottom-footer {
+        background-color: #0D6538;
+        color: $color-white;
+        font-size: 13px;
+        padding: 20px 0;
+
+        .row-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+
+            @include responsive( phone ) {
+                flex-direction: column;
+            }
+        
+            .column {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                .set-sosial {
+                    cursor: pointer;
+
+                    &:hover {
+                        &::after {
+                            filter: invert(41%) sepia(98%) saturate(7207%) hue-rotate(152deg) brightness(96%) contrast(87%);
+                        }
+                    }
+
+                    &::after {
+                        width: 20px;
+                        height: 20px;
+                        display: block;
+                        filter: invert(100%) sepia(100%) saturate(2%) hue-rotate(334deg) brightness(104%) contrast(101%);
+                    }
+
+                    &:nth-child(1) {
+                        &::after {
+                            width: 15px;
+                        }
+                    }
+
+                    &:nth-child(3) {
+                        &::after {
+                            width: 23px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

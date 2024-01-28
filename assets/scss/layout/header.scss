@@ -20,6 +20,7 @@ header {
                     
                     a {
                         text-decoration: unset;
+                        font-weight: 600;
                     }
                 }
 
@@ -32,10 +33,16 @@ header {
                     @include responsive( phone-small ) {
                         justify-content: flex-start;
                         margin-top: 10px;
+                        display: none;
                     }
 
                     span {
                         cursor: pointer;
+                        &:hover {
+                            &::after {
+                                filter: invert(41%) sepia(98%) saturate(7207%) hue-rotate(152deg) brightness(96%) contrast(87%);
+                            }
+                        }
                         &.ss-instagram {
                             &::after {
                                 width: 20px;
@@ -148,7 +155,7 @@ header {
 
                                     &:hover {
                                         background-color: $color-green;
-                                        color: #fff;
+                                        color: $color-yellow !important;
 
                                         &::before {
                                             filter: brightness(10);
@@ -272,6 +279,11 @@ header {
 
                         & > li:first-child {
                             padding: 10px 15px;
+                            &:hover {
+                                a {
+                                    filter: brightness(0) saturate(100%) invert(95%) sepia(55%) saturate(1597%) hue-rotate(357deg) brightness(106%) contrast(101%);
+                                }
+                            }
                             a {
                                 content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9.39 0.144039C9.28132 0.0510817 9.14301 0 9 0C8.85699 0 8.71868 0.0510817 8.61 0.144039L0 7.52402V16.2C0 16.6774 0.189642 17.1352 0.527208 17.4728C0.864773 17.8104 1.32261 18 1.8 18H6.6C6.75913 18 6.91174 17.9368 7.02426 17.8243C7.13679 17.7117 7.2 17.5591 7.2 17.4V13.8C7.2 13.3226 7.38964 12.8648 7.72721 12.5272C8.06477 12.1897 8.52261 12 9 12C9.47739 12 9.93523 12.1897 10.2728 12.5272C10.6104 12.8648 10.8 13.3226 10.8 13.8V17.4C10.8 17.5591 10.8632 17.7117 10.9757 17.8243C11.0883 17.9368 11.2409 18 11.4 18H16.2C16.6774 18 17.1352 17.8104 17.4728 17.4728C17.8104 17.1352 18 16.6774 18 16.2V7.52402L9.39 0.144039Z" fill="white"/></svg>');
                                 object-fit: contain;
@@ -285,6 +297,12 @@ header {
                             align-items: center;
                             position: relative;
                             cursor: pointer;
+
+                            &:hover {
+                                a {
+                                    color: $color-yellow;
+                                }
+                            }
 
                             a {
                                 text-decoration: unset;
@@ -330,6 +348,7 @@ header {
                             background-color: #f6f6f6;
                             z-index: 5;
                             min-width: 130px;
+                            box-shadow: 0 0 15px #00000030;
 
                             li {
                                 padding: 12px 15px;
@@ -343,7 +362,7 @@ header {
                                 &:hover {
                                     background-color: $color-green !important;
                                     a {
-                                        color: $color-white;
+                                        color: $color-yellow !important;
                                     }
                                 }
 
@@ -388,6 +407,7 @@ header {
                             border-radius: 5px;
                             border: 1px solid #b9b6b6;
                             background: #fff;
+                            padding: 0 15px;
                         }
 
                         &.active {
@@ -402,11 +422,11 @@ header {
 }
 
 
-.admin-bar {
-    .setmenu {
-        top: 45px !important;
-    }
-}
+// .admin-bar {
+//     .setmenu {
+//         padding-top: 45px !important;
+//     }
+// }
 
 @keyframes slideBar {
     from {
