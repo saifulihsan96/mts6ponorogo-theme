@@ -21,7 +21,7 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 
 					$logo_id = $information[ 'logo_footer' ][ 'id' ];
 					$logo    = wp_get_attachment_image( $logo_id, 'full', [ 'class' => 'footer-logo' ] );
-					echo $logo;
+					echo '<a href="/">' . $logo . '</a>';
 
 					?>
 					<div class="row-footer">
