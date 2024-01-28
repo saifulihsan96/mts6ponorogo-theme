@@ -17,6 +17,7 @@
 
 		</footer>
 	</div>
+	<script src="<?php echo FTR_URI ?>/dist/js/main.bundle.js"></script>
 	<?php wp_footer(); ?>
 	
 	</body>

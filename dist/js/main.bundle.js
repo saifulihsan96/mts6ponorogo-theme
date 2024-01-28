@@ -1,0 +1,1 @@
+(()=>{const e=document.querySelector(".search-menu"),t=document.querySelector(".form-search-page");e.addEventListener("click",(function(){t.classList.toggle("active")})),document.addEventListener("click",(function(c){e.contains(c.target)||t.contains(c.target)||t.classList.remove("active")}))})();

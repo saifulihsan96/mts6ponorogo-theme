@@ -28,8 +28,8 @@ function future_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	wp_enqueue_style( 'future-style', FTR_URI . '/assets/dist/main.css', [], FTR_VERSION );
-	wp_enqueue_script( 'future-script', FTR_URI . '/assets/dist/main.bundle.js', [], FTR_VERSION, true );
+	// wp_enqueue_style( 'future-style', FTR_URI . '/assets/dist/main.css', [], FTR_VERSION );
+	// wp_enqueue_script( 'future-script', FTR_URI . '/assets/dist/main.bundle.js', [], FTR_VERSION, true );
 }
 add_action( 'wp_enqueue_scripts', 'future_scripts' );
 
