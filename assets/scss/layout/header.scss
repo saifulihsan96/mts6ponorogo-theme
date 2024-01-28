@@ -36,7 +36,7 @@ header {
                         display: none;
                     }
 
-                    span {
+                    .set-sosial {
                         cursor: pointer;
                         &:hover {
                             &::after {
@@ -347,6 +347,7 @@ header {
                             left: 0;
                             background-color: #f6f6f6;
                             z-index: 5;
+                            width: max-content;
                             min-width: 130px;
                             box-shadow: 0 0 15px #00000030;
 

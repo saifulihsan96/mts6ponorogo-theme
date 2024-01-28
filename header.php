@@ -8,7 +8,9 @@
  *
  * @package future
  */
- 
+
+$contentFooter = get_field( 'footer_content', 'option' );
+$content       = ( $contentFooter ) ? $contentFooter : [];
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -32,14 +34,46 @@
 
 							<div class="row-header">
 								<div class="header-setpost">
-									<span class="header-post-date">19 January 2024</span>
-									<span class="header-post"><strong>Latest : </strong><a href="/"> Profil Perpustakaan Harun Al Rasyid MAN 2 Kudus</a></span>
+									<?php
+
+									$postTop = get_field( 'post_top', 'option' );
+									if ( $postTop ) {
+										$title = get_the_title( $postTop );
+										$url   = get_permalink( $postTop );
+										$date  = get_the_date( 'l F j', $postTop );
+										?>
+
+										<span class="header-post-date"><?php echo $date; ?></span>
+										<span class="header-post"><strong>Latest : </strong><a href="<?php echo $url; ?>"> <?php echo $title; ?></a></span>
+
+										<?php
+									}
+
+									?>
 								</div>
 
 								<div class="header-sosial">
-									<span class="set-sosial ss-facebook"></span>
-									<span class="set-sosial ss-instagram"></span>
-									<span class="set-sosial ss-youtube"></span>
+									<?php
+
+									$sosialMedia = $content[ 'sosial_media' ];
+									if ( $sosialMedia ) {
+										foreach ( $sosialMedia as $sosial ) {
+											$media = $sosial[ 'media' ];
+											$url   = $sosial[ 'url_sosial_media' ];
+
+											if ( $media == 'facebook' ) {
+												echo '<a href="' . $url . '" target="_blank" class="set-sosial ss-facebook"></a>';
+											}
+											if ( $media == 'instagram' ) {
+												echo '<a href="' . $url . '" target="_blank" class="set-sosial ss-instagram"></a>';
+											}
+											if ( $media == 'youtube' ) {
+												echo '<a href="' . $url . '" target="_blank" class="set-sosial ss-youtube"></a>';
+											}
+										}
+									}
+
+									?>
 								</div>
 							</div>
 
@@ -53,10 +87,12 @@
 								<div class="logo-main">
 									<a href="/">
 									<?php
+
 									$custom_logo_id = get_theme_mod( 'custom_logo' );
 									$image          = wp_get_attachment_image( $custom_logo_id , 'full' );
 
 									echo $image;
+
 									?>
 									</a>
 								</div>
@@ -76,10 +112,12 @@
 											</svg>
 										</div>
 										<?php
+
 										wp_nav_menu( [
 											'menu'       => 'Menu 1',
 											'menu_class' => 'main-mobile-header',
 										] );
+
 										?>
 									</div>
 									<div class="overlay-menu"></div>
@@ -95,14 +133,14 @@
 
 							<div class="row-header">
 								<div class="main-menu">
-									
 									<?php
+
 									wp_nav_menu( [
 										'menu'       => 'Menu 1',
 										'menu_class' => 'main-menu-header',
 									] );
-									?>
 
+									?>
 								</div>
 
 								<div class="search-head">

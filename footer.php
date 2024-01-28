@@ -9,27 +9,58 @@
  * @package future
  */
 
+$contentFooter = get_field( 'footer_content', 'option' );
+$content       = ( $contentFooter ) ? $contentFooter : [];
+$information   = ( $content[ 'school_information' ] ) ? $content[ 'school_information' ] : [];
 ?>
 
 		<footer class="footer-main">
 			<div class="top-footer">
 				<div class="mts-container">
-					<img src="<?php echo FTR_URI ?>/assets/image/logo-white.svg" alt="logo-footer" width="228" height="51" class="footer-logo">
+					<?php
+
+					$logo_id = $information[ 'logo_footer' ][ 'id' ];
+					$logo    = wp_get_attachment_image( $logo_id, 'full', [ 'class' => 'footer-logo' ] );
+					echo $logo;
+
+					?>
 					<div class="row-footer">
 						<div class="column">
 
 							<div class="set-row">
-								<div class="text-footer">Madrasah Tsanawiyah Negeri 6 Ponorogo, atau yang lebih dikenal sebagai MTS N 6 Ponorogo, memiliki sejarah yang kaya dan memberikan kontribusi penting dalam pendidikan di wilayah tersebut. </div>
+								<div class="text-footer">
+								<?php 
+
+								$desc = ( $information[ 'description' ] ) ? $information[ 'description' ] : '';
+								echo $desc;
+
+								?>
+								</div>
 							</div>
 
 							<div class="set-row">
 								<div class="text-head">Lokasi Sekolah</div>
-								<div class="text-footer">Jl. Bogem, Bogem, Sampung, Kec. Ponorogo, Kabupaten Ponorogo, Jawa Timur 63454</div>
+								<div class="text-footer">
+								<?php 
+
+								$address = ( $information[ 'address' ] ) ? $information[ 'address' ] : '';
+								echo $address;
+
+								?>
+								</div>
 							</div>
 
 							<div class="set-row">
-								<a href="tel:08113311176">081 133 111 76</a>
-								<a href="mailto:mtsnsampung@admin.com">mtsnsampung@admin.com</a>
+								<?php
+
+								$phone    = ( $information[ 'phone' ] ) ? $information[ 'phone' ] : '';
+								$urlPhone = str_replace( ' ', '', $phone );
+								echo '<a href="tel:' . $urlPhone . '">' . $phone . '</a>';
+
+								$email    = ( $information[ 'email' ] ) ? $information[ 'email' ] : '';
+								echo '<a href="mailto:' . $email . '">' . $email . '</a>';
+
+								?>
 							</div>
 
 						</div>
@@ -38,9 +69,21 @@
 							<div class="set-row">
 								<div class="text-head">MTs Negeri 6 Po</div>
 								<ul>
-									<li><a href="/">Tentang Kami</a></li>
-									<li><a href="/">Kontak</a></li>
-									<li><a href="/">Artikel</a></li>
+									<?php
+									
+									$menu_footer = ( $content[ 'menu_footer' ] ) ? $content[ 'menu_footer' ] : [];
+									$menus        = $menu_footer[ 'menu' ];
+									if ( $menus) {
+										foreach ( $menus as $menu ) {
+											$page       = $menu[ 'item_menu' ];
+											$title_page = $page->post_title;
+											$url_page   = get_permalink( $page->ID );
+
+											echo '<li><a href="' . $url_page .'">' . $title_page . '</a></li>';
+										}
+									}
+
+									?>
 								</ul>
 							</div>
 
@@ -50,9 +93,19 @@
 							<div class="set-row">
 								<div class="text-head">News Artikel</div>
 								<ul>
-									<li><a href="/">Juara Umum Kompetisi Sepak Bola Liga Bupati</a></li>
-									<li><a href="/">Pembukaan Pendaftaran Siswa - Siswi Baru Tahun 2024</a></li>
-									<li><a href="/">Pengumuman Pendaftaran Anggota OSIS </a></li>
+									<?php
+									
+									$post_footer = get_field( 'post_bottom', 'option' );
+									if ( $post_footer ) {
+										foreach ( $post_footer as $post ) {
+											$post_title = get_the_title( $post );
+											$post_url   = get_permalink( $post );
+
+											echo '<li><a href="' . $post_url . '">' . $post_title . '</a></li>';
+										}
+									}
+
+									?>
 								</ul>
 							</div>
 
@@ -65,11 +118,29 @@
 				<div class="mts-container">
 
 					<div class="row-footer">
-						<div class="column">Copyright © 2024 Educate || All Rights Reserved</div>
+						<div class="column">Copyright © <?php echo date( 'Y' ) ?> MTsN 6 Ponorogo || All Rights Reserved</div>
 						<div class="column">
-							<span class="set-sosial ss-facebook"></span>
-							<span class="set-sosial ss-instagram"></span>
-							<span class="set-sosial ss-youtube"></span>
+							<?php
+
+							$sosialMedia = $content[ 'sosial_media' ];
+							if ( $sosialMedia ) {
+								foreach ( $sosialMedia as $sosial ) {
+									$media = $sosial[ 'media' ];
+									$url   = $sosial[ 'url_sosial_media' ];
+
+									if ( $media == 'facebook' ) {
+										echo '<a href="' . $url . '" target="_blank" class="set-sosial ss-facebook"></a>';
+									}
+									if ( $media == 'instagram' ) {
+										echo '<a href="' . $url . '" target="_blank" class="set-sosial ss-instagram"></a>';
+									}
+									if ( $media == 'youtube' ) {
+										echo '<a href="' . $url . '" target="_blank" class="set-sosial ss-youtube"></a>';
+									}
+								}
+							}
+
+							?>
 						</div>
 					</div>
 
