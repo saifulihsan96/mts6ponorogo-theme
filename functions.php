@@ -13,8 +13,8 @@ define( 'FTR_PATH', get_template_directory() );
 define( 'FTR_URI', get_template_directory_uri() );
 
 require FTR_PATH . '/inc/core-functions.php';
+require FTR_PATH . '/inc/acf.php';
 // require FTR_PATH . '/inc/acf-guttenberg-block.php';
-// require FTR_PATH . '/inc/acf.php';
 
 
 /**
