@@ -43,36 +43,40 @@ a {
 }
 
 
-h1 {
+h1, .heading1 {
     font-size: clamp(35px, calc(2.1875rem + ((1vw - 3.4px) * 1.5306)), 50px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
 }
-h2 {
+h2, .heading2 {
     font-size: clamp(30px, calc(1.875rem + ((1vw - 3.4px) * 1.0204)), 40px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
 }
-h3 {
+h3, .heading3 {
     font-size: clamp(25px, calc(1.5625rem + ((1vw - 3.4px) * 0.3061)), 28px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
 }
-h4 {
+h4, .heading4 {
     font-size: clamp(20px, calc(1.25rem + ((1vw - 3.4px) * 0.4082)), 24px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
 }
-h5 {
-    font-size: clamp(18px, calc(1.125rem + ((1vw - 3.4px) * 0.4082)), 22px);
+h5, .heading5 {
+    font-size: clamp(18px, calc(1.125rem + ((1vw - 3.2px) * 0.2273)), 20px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
 }
+.title-post {
+    font-size: 17px;
+}
+
 p {
     font-size: 15px;
     font-weight: 300;

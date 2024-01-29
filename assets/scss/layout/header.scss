@@ -345,7 +345,7 @@ header {
                             padding-left: 0;
                             top: 100%;
                             left: 0;
-                            background-color: #f6f6f6;
+                            background-color: #ddd;
                             z-index: 5;
                             width: max-content;
                             min-width: 130px;
@@ -354,7 +354,7 @@ header {
                             li {
                                 padding: 12px 15px;
                                 border-bottom: 1px solid #ddd;
-                                background-color: #f6f6f6 !important;
+                                background-color: #bdbdbd !important;
 
                                 &:last-child {
                                     border-bottom: unset;

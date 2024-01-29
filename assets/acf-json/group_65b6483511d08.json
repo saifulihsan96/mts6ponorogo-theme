@@ -333,6 +333,46 @@
                     ]
                 }
             ]
+        },
+        {
+            "key": "field_65b6f4640e49b",
+            "label": "Iframe Map",
+            "name": "iframe_map",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_65b6f49d2246f",
+            "label": "Form Footer",
+            "name": "form_footer",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         }
     ],
     "location": [
@@ -353,5 +393,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1706453211
+    "modified": 1706501493
 }

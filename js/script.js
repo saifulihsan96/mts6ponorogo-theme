@@ -37,3 +37,24 @@ close_menu.addEventListener( 'click', function() {
     setmenu.classList.remove( 'active_menu' );
     overlay_menu.classList.remove( 'active' );
 });
+
+var swiper = new Swiper( '.footer-post', {
+    navigation: {
+        nextEl: ".footer-next",
+        prevEl: ".footer-prev",
+    },
+    breakpoints: {
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
+    },
+});
