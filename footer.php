@@ -95,9 +95,13 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 			<?php
 			
 			$urlIframe = get_field( 'iframe_map', 'option' );
-
+			if ( $urlIframe ) {
+				
 			?>
+
 			<iframe src="<?php echo $urlIframe; ?>" width="600" height="313" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+			<?php } ?>
 		</section>
 
 		<section class="subscriber">

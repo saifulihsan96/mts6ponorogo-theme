@@ -44,13 +44,13 @@ a {
 
 
 h1, .heading1 {
-    font-size: clamp(35px, calc(2.1875rem + ((1vw - 3.4px) * 1.5306)), 50px);
+    font-size: clamp(30px, calc(1.875rem + ((1vw - 3.2px) * 1.1364)), 40px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
 }
 h2, .heading2 {
-    font-size: clamp(30px, calc(1.875rem + ((1vw - 3.4px) * 1.0204)), 40px);
+    font-size: clamp(27px, calc(1.6875rem + ((1vw - 3.2px) * 0.9091)), 35px);
     font-weight: 700;
     line-height: 1.2;
     color: $color-black;
@@ -96,5 +96,22 @@ p {
     }
     @if $breakpoint == tab-land {
         @media only screen and (max-width: 1024px) { @content };
+    }
+}
+
+.button {
+    padding: 15px 20px;
+    border-radius: 8px;
+    background-color: $color-green;
+    color: $color-white;
+    font-weight: 600;
+    display: block;
+    text-decoration: unset;
+    width: fit-content;
+    transition: 0.3s ease;
+
+    &:hover {
+        background-color: $color-white;
+        color: $color-green;
     }
 }

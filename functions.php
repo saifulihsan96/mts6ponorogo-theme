@@ -14,7 +14,7 @@ define( 'FTR_URI', get_template_directory_uri() );
 
 require FTR_PATH . '/inc/core-functions.php';
 require FTR_PATH . '/inc/acf.php';
-// require FTR_PATH . '/inc/acf-guttenberg-block.php';
+require FTR_PATH . '/acf-gutenberg/block-definitions.php';
 
 
 /**

@@ -41,7 +41,7 @@ $content       = ( $contentFooter ) ? $contentFooter : [];
 									if ( $postTop ) {
 										$title = get_the_title( $postTop );
 										$url   = get_permalink( $postTop );
-										$date  = get_the_date( 'l F j', $postTop );
+										$date  = get_the_date( 'l j, F', $postTop );
 										?>
 
 										<span class="header-post-date"><?php echo $date; ?></span>
