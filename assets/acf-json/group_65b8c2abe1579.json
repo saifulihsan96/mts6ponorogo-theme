@@ -45,11 +45,11 @@
                     "placeholder": ""
                 },
                 {
-                    "key": "field_65b8c30d9ea0a",
-                    "label": "Image",
-                    "name": "image",
+                    "key": "field_65b94ad9c23a1",
+                    "label": "Gallery",
+                    "name": "gallery",
                     "aria-label": "",
-                    "type": "image",
+                    "type": "gallery",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": [
@@ -59,7 +59,36 @@
                                 "operator": "==",
                                 "value": "image"
                             }
-                        ],
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min": "",
+                    "max": 4,
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "insert": "append",
+                    "preview_size": "medium"
+                },
+                {
+                    "key": "field_65b8c30d9ea0a",
+                    "label": "Image",
+                    "name": "image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
                         [
                             {
                                 "field": "field_65b8c2ef9ea09",
@@ -299,5 +328,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1706624385
+    "modified": 1706642281
 }

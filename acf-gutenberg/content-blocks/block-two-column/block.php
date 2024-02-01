@@ -29,14 +29,20 @@ if ( ! empty( $block['align'] ) ) {
 $columnMedia = get_field( 'column_media' );
 $optionMedia = $columnMedia[ 'select_media' ];
 $image       = $columnMedia[ 'image' ];
+$galleries   = $columnMedia[ 'gallery' ];
 $urlYoutube  = $columnMedia[ 'video_youtube' ];
 
 $media_content  = '';
 if ( $optionMedia == 'image' ) {
 
-    $image_id   = $image[ 'id' ];
-    $setimage   = wp_get_attachment_image( $image_id, 'full', '', [ 'class' => 'content-image' ] );
-    $media_content .= ( $image ) ? $setimage : '';
+    $itemGallery = '';
+    if ( $galleries ) {
+        foreach ( $galleries as $gallery ) {
+            $itemGallery .= wp_get_attachment_image( $gallery[ 'id' ], 'full', '', [ 'class' => 'gallery-item' ] );
+        }
+    }
+
+    $media_content .= '<div class="content_gallery">' . $itemGallery . '</div>';
 
 } else if ( $optionMedia == 'video' ) {
     $image_id   = $image[ 'id' ];
@@ -80,7 +86,8 @@ if ( $optionContent == 'normal' || $optionContent == 'list' ) {
 
 $list_content = '';
 if ( $optionContent == 'list' ) {
-    $lists = $columnContent[ 'list_content' ];
+    $lists     = $columnContent[ 'list_content' ];
+    $list_item = '';
 
     if ( $lists ) {
         foreach ( $lists as $key => $list ) {
@@ -88,7 +95,7 @@ if ( $optionContent == 'list' ) {
             $textSub  = $list[ 'text' ];
             $number   = $key + 1;
 
-            $list_content .= <<<HTML
+            $list_item .= <<<HTML
             <div class="list-item">
                 <div class="head-list">
                     <span>{$number}</span>
@@ -99,6 +106,8 @@ if ( $optionContent == 'list' ) {
 HTML;
 
         }
+
+        $list_content .= '<div class="list_cotent">' . $list_item . '</div>';
     }
 
 }
@@ -117,7 +126,7 @@ $view = <<<HTML
                 </div>
                 <div class="column-content">
                     {$text_content}
-                    <div class="list_cotent">{$list_content}</div>
+                    {$list_content}
                     {$link_content}
                 </div>
             </div>

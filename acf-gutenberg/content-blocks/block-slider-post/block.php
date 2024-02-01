@@ -29,6 +29,8 @@ if ( ! empty( $block['align'] ) ) {
 
 $itemslide  = '';
 $name_sec   = get_field( 'name_section' );
+$link       = get_field( 'link_next' );
+$link_next  = ( $link ) ? '<a href="/" class="next">Selengkapnya</a>' : '';
 $sliderpost = get_field( 'post_slider' );
 
 if ( $sliderpost && $name_sec ) {
@@ -81,7 +83,7 @@ $view = <<<HTML
         <div class="mts-container">
             <div class="head-section">
                 <h2 class="heading5">{$name_sec}</h2>
-                <a href="">Selengkapnya</a>
+                {$link_next}
             </div>
             <div class="swiper carousel-post slide-post">
                 <div class="swiper-wrapper">

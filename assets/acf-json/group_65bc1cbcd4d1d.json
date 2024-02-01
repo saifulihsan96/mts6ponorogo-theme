@@ -1,9 +1,9 @@
 {
-    "key": "group_65b8ad47b4361",
-    "title": "Block Slider Post",
+    "key": "group_65bc1cbcd4d1d",
+    "title": "Block Post Grid",
     "fields": [
         {
-            "key": "field_65b8b9981ef7f",
+            "key": "field_65bc1cd62e645",
             "label": "Name Section",
             "name": "name_section",
             "aria-label": "",
@@ -23,7 +23,7 @@
             "append": ""
         },
         {
-            "key": "field_65bc17ee42b2d",
+            "key": "field_65bc1d012e646",
             "label": "Link Next",
             "name": "link_next",
             "aria-label": "",
@@ -43,14 +43,48 @@
             "ui": 1
         },
         {
-            "key": "field_65b8ad47831da",
-            "label": "Post Slider",
-            "name": "post_slider",
+            "key": "field_65bc1d102e647",
+            "label": "Select Post",
+            "name": "select_post",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "dynamis": "Dynamis Post",
+                "custom": "Custom Post"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_65bc1db82e648",
+            "label": "Post Custom",
+            "name": "post_custom",
             "aria-label": "",
             "type": "relationship",
             "instructions": "",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_65bc1d102e647",
+                        "operator": "==",
+                        "value": "custom"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -79,7 +113,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/block-slider-post"
+                "value": "acf\/block-post-grid"
             }
         ]
     ],
@@ -92,5 +126,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1706825741
+    "modified": 1706827228
 }

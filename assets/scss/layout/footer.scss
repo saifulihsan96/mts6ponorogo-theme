@@ -69,11 +69,19 @@
                 &:nth-child(2) {
                     max-width: 240px;
                     width: 100%;
+
+                    @include responsive( phone ) {
+                        max-width: unset;
+                    }
                 }
 
                 &:last-child {
                     max-width: 240px;
                     width: 100%;
+
+                    @include responsive( phone ) {
+                        max-width: unset;
+                    }
 
                     .set-row {
                         ul {
@@ -189,6 +197,10 @@
                         background-color: unset;
                         border: unset;
                         font-family: 'Montserrat', sans-serif;
+
+                        @include responsive( phone ) {
+                            margin-bottom: 10px;
+                        }
                     }
                 }
 

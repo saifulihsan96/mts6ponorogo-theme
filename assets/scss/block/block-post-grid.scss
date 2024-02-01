@@ -1,0 +1,93 @@
+
+.block-post-grid {
+    margin: 100px 0;
+
+    .text-head {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 35px;
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        a {
+            font-weight: 600;
+            text-underline-offset: 8px;
+        }
+    }
+
+    .grid-post {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 30px 12%;
+
+        @include responsive( tab-port ) {
+            grid-template-columns: 1fr;
+        }
+        @include responsive( phone-small ) {
+            grid-gap: 40px;
+        }
+
+        .item-post {
+            text-decoration: unset;
+            display: grid;
+            grid-template-columns: 30% 65%;
+            grid-gap: 5%;
+
+            @include responsive( phone-small ) {
+                grid-template-columns: 100%;
+                grid-gap: 20px;
+            }
+
+            img {
+                border-radius: 10px;
+                max-width: 160px;
+                width: 100%;
+                height: 180px;
+                object-fit: cover;
+
+                @include responsive( tab-port ) {
+                    max-width: unset;
+                }
+
+            }
+            .content-post {
+                .category {
+                    width: fit-content;
+                    font-size: 10px;
+                    color: $color-white;
+                    font-weight: 600;
+                    padding: 5px 10px;
+                    border-radius: 6px;
+                    margin-bottom: 10px;
+
+                    &.green {
+                        background-color: $color-green;
+                    }
+                    &.red {
+                        background-color: $color-red;
+                    }
+                    &.blue {
+                        background-color: $color-blue;
+                    }
+                }
+                .date {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: $color-green;
+                    margin-bottom: 10px;
+                }
+                h3 {
+                    margin-top: 0;
+                    margin-bottom: 5px;
+                    font-size: 18px;
+                }
+                p {
+                    margin: 0;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
