@@ -18,62 +18,73 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 			<div class="mts-container">
 			<?php 
 			
-			$args = [
-				'post_type'      => 'post',
-				'post_status'    => 'publish',
-				'posts_per_page' => 10,
-				'tax_query'      => [
-					[
-						'taxonomy' => 'group-post',
-						'field'    => 'slug',
-						'terms'    => 'highlight',
+			if ( is_single() ) {
+
+				$categories = get_the_category();
+				$category_ids = array();
+				foreach ($categories as $category) {
+					$category_ids[] = $category->term_id;
+				}
+
+				$args = [
+					'post_type'      => 'post',
+					'post_status'    => 'publish',
+					'posts_per_page' => 10,
+					'category__in'   => $category_ids,
+					'post__not_in'   => array(get_the_ID()),
+				];
+				
+			} else {
+
+				$args = [
+					'post_type'      => 'post',
+					'post_status'    => 'publish',
+					'posts_per_page' => 10,
+					'tax_query'      => [
+						[
+							'taxonomy' => 'group-post',
+							'field'    => 'slug',
+							'terms'    => 'highlight',
+						]
 					]
-				]
-			];
+				];
+			}
 
 			$query = new wp_query( $args );
 			if ( $query->have_posts() ) {
+				if ( is_single() ) {
 				?>
-				<h2 class="heading5">Highlight Artikel</h2>
+					<h2 class="heading5">Related Artikel</h2>
+				<?php } else { ?>
+					<h2 class="heading5">Highlight Artikel</h2>
+				<?php } ?>
+
 				<div class="swiper footer-post">
 					<div class="swiper-wrapper">
 
 					<?php
 					while ( $query->have_posts() ) {
 						$query->the_post();
+						$id_post = get_the_ID();
 						$title = get_the_title();
 						$url   = get_permalink();
 
 						$image_id = get_post_thumbnail_id();
 						$image    = wp_get_attachment_image( $image_id, 'full' );
-						$category = get_the_category();
-
-						$name_cat = '';
-						$class    = '';
-						if ( $category ) {
-							foreach ( $category as $cat ) {
-								$name_cat .= $cat->name;
-
-								if ( $cat->slug == 'event' ) {
-									$class .= 'red'; 
-								}
-								if ( $cat->slug == 'informasi' ) {
-									$class .= 'blue'; 
-								}
-								if ( $cat->slug == 'news' ) {
-									$class .= 'green'; 
-								}
-							}
-						}
+						$category = category_post( $id_post );
 						?>
 						
-						<a href="<?php echo $url; ?>" class="swiper-slide item-post">
+						<div class="swiper-slide item-post">
 							<div class="post-media">
-								<div class="post-category <?php echo $class; ?>"><?php echo $name_cat; ?></div>
+								<?php echo $category; ?>
 								<?php echo $image; ?>
 							</div>
-							<h3 class="title-post"><?php echo $title; ?></h3>
-						</a>
+							<h3 class="title-post">
+								<a href="<?php echo $url; ?>">
+									<?php echo $title; ?>
+								</a>
+							</h3>
+						</div>
 
 						<?php
 					}

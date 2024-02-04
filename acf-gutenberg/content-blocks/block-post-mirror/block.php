@@ -99,35 +99,17 @@ if ( $select == 'custom' ) {
 
             $image_id = get_post_thumbnail_id( $id_post );
             $image    = wp_get_attachment_image( $image_id, 'full' );
-            $category = get_the_category( $id_post );
-
-            $name_cat = '';
-            $class    = '';
-            if ( $category ) {
-                foreach ( $category as $cat ) {
-                    $name_cat .= $cat->name;
-
-                    if ( $cat->slug == 'event' ) {
-                        $class .= 'red'; 
-                    }
-                    if ( $cat->slug == 'informasi' ) {
-                        $class .= 'blue'; 
-                    }
-                    if ( $cat->slug == 'news' ) {
-                        $class .= 'green'; 
-                    }
-                }
-            }
+            $category = category_post( $id_post );
 
             $item_post .= <<<HTML
-            <a href="{$url}" class="item-post">
+            <div class="item-post">
                 {$image}
                 <div class="overlay-post"></div>
                 <div class="content-post">
-                    <div class="category {$class}">{$name_cat}</div>
-                    <h3>{$title}</h3>
+                    {$category}
+                    <h3><a href="{$url}">{$title}</a></h3>
                 </div>
-            </a>
+            </div>
 HTML;
         }
     }

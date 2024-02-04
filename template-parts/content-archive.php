@@ -10,7 +10,7 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	
+
 	<div class="post_item">
 
 		<?php future_post_thumbnail(); ?>
@@ -23,7 +23,6 @@
 			echo $category;
 
 			?>
-		
 			<?php $date = get_the_date( 'l j, F', get_the_ID() ); ?>
 			<div class="date"><?php echo $date ?></div>
 
@@ -34,8 +33,8 @@
 				the_title( '<h3 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h3>' );
 			endif;
 
-			$desc     = get_the_excerpt( get_the_ID() );
-			$description = strlen( $desc ) > 300 ? substr( $desc, 0, 180 ) . ' ...' : $desc;
+            $desc     = get_the_excerpt( get_the_ID() );
+            $description = strlen( $desc ) > 300 ? substr( $desc, 0, 180 ) . ' ...' : $desc;
 			?>
 			<p><?php echo $description ?></p>
 		</div>

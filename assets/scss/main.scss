@@ -6,6 +6,8 @@
 
 @import 'layout/header';
 @import 'layout/footer';
+@import 'layout/single';
+@import 'layout/page';
 
 @import 'block/block-featured';
 @import 'block/block-hero';
@@ -13,3 +15,5 @@
 @import 'block/block-two-column';
 @import 'block/block-post-mirror';
 @import 'block/block-post-grid';
+@import 'block/block-video';
+@import 'block/block-accordion';

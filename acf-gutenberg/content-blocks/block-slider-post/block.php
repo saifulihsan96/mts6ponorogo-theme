@@ -41,34 +41,16 @@ if ( $sliderpost && $name_sec ) {
 
         $image_id = get_post_thumbnail_id( $id_post );
         $image    = wp_get_attachment_image( $image_id, 'full' );
-        $category = get_the_category( $id_post );
-
-        $name_cat = '';
-        $class    = '';
-        if ( $category ) {
-            foreach ( $category as $cat ) {
-                $name_cat .= $cat->name;
-
-                if ( $cat->slug == 'event' ) {
-                    $class .= 'red'; 
-                }
-                if ( $cat->slug == 'informasi' ) {
-                    $class .= 'blue'; 
-                }
-                if ( $cat->slug == 'news' ) {
-                    $class .= 'green'; 
-                }
-            }
-        }
+        $category = category_post( $id_post );
 
         $itemslide .= <<<HTML
-        <a href="{$url}" class="swiper-slide item-slide">
+        <div class="swiper-slide item-slide">
             <div class="post-media">
-                <div class="post-category {$class}">{$name_cat}</div>
+                {$category}
                 {$image}
             </div>
-            <h3 class="title-post">{$title}</h3>
-        </a>
+            <h3 class="title-post"><a href="{$url}">{$title}</a></h3>
+        </div>
 HTML;
     }
 }

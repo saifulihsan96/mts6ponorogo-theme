@@ -53,25 +53,6 @@
 
             }
             .content-post {
-                .category {
-                    width: fit-content;
-                    font-size: 10px;
-                    color: $color-white;
-                    font-weight: 600;
-                    padding: 5px 10px;
-                    border-radius: 6px;
-                    margin-bottom: 10px;
-
-                    &.green {
-                        background-color: $color-green;
-                    }
-                    &.red {
-                        background-color: $color-red;
-                    }
-                    &.blue {
-                        background-color: $color-blue;
-                    }
-                }
                 .date {
                     font-size: 14px;
                     font-weight: 500;
@@ -82,6 +63,10 @@
                     margin-top: 0;
                     margin-bottom: 5px;
                     font-size: 18px;
+                    a {
+                        color: $color-black;
+                        text-decoration: unset;
+                    }
                 }
                 p {
                     margin: 0;

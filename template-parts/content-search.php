@@ -10,26 +10,35 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 
-		<?php if ( 'post' === get_post_type() ) : ?>
-		<div class="entry-meta">
+	<div class="post_item">
+
+		<?php future_post_thumbnail(); ?>
+		<div class="content-post">
+
 			<?php
-			future_posted_on();
-			future_posted_by();
+			
+			$post_id  = get_the_ID();
+			$category = category_post( $post_id );
+			echo $category;
+
 			?>
-		</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
+			
+			<?php $date = get_the_date( 'l j, F', get_the_ID() ); ?>
+			<div class="date"><?php echo $date ?></div>
 
-	<?php future_post_thumbnail(); ?>
+			<?php
+			if ( is_singular() ) :
+				the_title( '<h3 class="entry-title">', '</h3>' );
+			else :
+				the_title( '<h3 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h3>' );
+			endif;
 
-	<div class="entry-summary">
-		<?php the_excerpt(); ?>
-	</div><!-- .entry-summary -->
+            $desc     = get_the_excerpt( get_the_ID() );
+            $description = strlen( $desc ) > 300 ? substr( $desc, 0, 180 ) . ' ...' : $desc;
+			?>
+			<p><?php echo $description ?></p>
+		</div>
+	</div>
 
-	<footer class="entry-footer">
-		<?php future_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
-</article><!-- #post-<?php the_ID(); ?> -->
+</article>

@@ -198,3 +198,103 @@ require FTR_PATH . '/inc/customizer.php';
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require FTR_PATH . '/inc/jetpack.php';
 }
+
+
+add_action( 'enqueue_block_editor_assets', 'my_admin_style' );
+function my_admin_style() {
+    $style_version = filemtime( FTR_PATH . '/dist/css/main.css' );
+    $script_version = filemtime( FTR_PATH . '/dist/js/main.bundle.js' );
+
+    wp_enqueue_style( 'style-global', FTR_URI . '/dist/css/main.css', array(), $style_version );
+    wp_enqueue_script( 'script-global', FTR_URI . '/dist/js/main.bundle.js', array(), $script_version );
+}
+
+
+function sidebar_set() {
+	$text_head    = get_field( 'text_head', 'option' );
+	$sidebar_post = get_field( 'sidebar_post', 'option' );
+	echo '<div class="text-head heading5">' . $text_head . '</div>';
+	echo '<div class="sidebar-single">';
+	if ( $sidebar_post ) {
+		foreach ( $sidebar_post as $post ) {
+
+			$get_id = $post->ID;
+			$title  = get_the_title( $get_id );
+			$url    = get_permalink( $get_id );
+			$category = category_post( $get_id );
+
+			?>
+			<div class="item-post-sidebar">
+				<?php echo $category; ?>
+				<h3><a href="<?php echo $url; ?>"><?php echo $title; ?></a></h3>
+			</div>
+			<?php
+
+		}
+	}
+	echo '</div>';
+}
+
+
+function head_title( $template ) {
+	$title2 = '';
+	$title  = '';
+
+	if ( $template == 'archive' ) {
+		$archive     = get_the_archive_title();
+		$title_parts = explode( ':', $archive );
+
+		$title  .= $title_parts[1];
+		$title2 .= $title_parts[1];
+	} 
+	if ( $template == 'page' ) {
+		$title  .= get_the_title();
+		$title2 .= get_the_title();
+	}
+	if ( $template == 'search' ) {
+		$title  .= 'Search Results for: <span>' . get_search_query() . '</span>';
+		$title2 .= get_search_query();
+
+	}
+	?>
+	<div class="head-page">
+		<div class="mts-container">
+			<h1><?php echo $title; ?></h1>
+			<div class="nav-page">
+				<a href="/">Home</a>
+				<span><?php echo $title2; ?></span>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+
+
+function category_post( $id ) {
+	$item_category = '';
+	$category = get_the_category( $id );
+
+	if ( $category ) {
+		foreach ( $category as $cat ) {
+			$id_cat    = $cat->term_id;
+			$name_cat  = $cat->name;
+			$url_cat   = get_category_link( $id_cat );
+			$class     = '';
+
+			if ( $cat->slug == 'event' ) {
+				$class .= 'red'; 
+			}
+			if ( $cat->slug == 'informasi' ) {
+				$class .= 'blue'; 
+			}
+			if ( $cat->slug == 'news' ) {
+				$class .= 'green'; 
+			}
+
+			$item_category .= '<a href="' . $url_cat . '" class="item-category ' . $class . '">' . $name_cat .  '</a>';
+		}
+	}
+
+	$html = '<div class="category-post">' . $item_category . '</div>';
+	return $html;
+}

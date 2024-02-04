@@ -82,5 +82,29 @@ add_action( 'acf/init', function() {
 			'keywords' 			=> [ 'block', 'two', 'column' ],
 		] );
 
+		acf_register_block_type( [
+			'name' 				=> 'block-video',
+			'title' 			=> 'Block Video',
+			'description' 		=> '',
+			'render_template'   => get_stylesheet_directory() . '/acf-gutenberg/content-blocks/block-video/block.php',
+			'category' 			=> 'widgets',
+			'icon'              => 'book-alt',
+			'supports' 			=> $supports,
+			'align' 			=> [ 'left', 'right', 'full' ],
+			'keywords' 			=> [ 'block', 'video' ],
+		] );
+
+		acf_register_block_type( [
+			'name' 				=> 'block-accordion',
+			'title' 			=> 'Block Accordion',
+			'description' 		=> '',
+			'render_template'   => get_stylesheet_directory() . '/acf-gutenberg/content-blocks/block-accordion/block.php',
+			'category' 			=> 'widgets',
+			'icon'              => 'book-alt',
+			'supports' 			=> $supports,
+			'align' 			=> [ 'left', 'right', 'full' ],
+			'keywords' 			=> [ 'block', 'accordion' ],
+		] );
+
 	}
 } );

@@ -10,8 +10,9 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
+	<?php echo head_title( 'page' ); ?>
 	<div class="entry-content">
+		<div class="mts-container">
 		<?php
 		the_content();
 
@@ -22,6 +23,7 @@
 			)
 		);
 		?>
+		</div>
 	</div><!-- .entry-content -->
 
 	<?php if ( get_edit_post_link() ) : ?>

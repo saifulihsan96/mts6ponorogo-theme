@@ -63,6 +63,8 @@ var swiper = new Swiper( '.footer-post', {
 
 
 
+
+
 function SwicthPostHero( inner ) {
     for ( let i = 0; i < inner.length; i++ ) {
         const inner1 = inner[0];
@@ -113,7 +115,6 @@ function SwicthPostHero( inner ) {
     }
     startAnimation();
 }
-
 
 const heroblock = document.querySelector( '.block-hero' );
 if ( heroblock ) {
@@ -169,51 +170,120 @@ if ( heroblock ) {
 
 
 
+
+
 const blockslider = document.querySelectorAll( '.block-slider-post' );
-for (let i = 0; i < blockslider.length; i++) {
-    const sliders = blockslider[i];
-    const postslider = sliders.querySelector( '.slide-post' );
+if ( blockslider ) {
+    for (let i = 0; i < blockslider.length; i++) {
+        const sliders = blockslider[i];
+        const postslider = sliders.querySelector( '.slide-post' );
 
-    const id = sliders.getAttribute( 'id' );
-    const next   = '#' + id + ' .slider-next';
-    const prev   = '#' + id + ' .slider-prev';
-    const scroll = '#' + id + ' .swiper-scrollbar';
+        const id = sliders.getAttribute( 'id' );
+        const next   = '#' + id + ' .slider-next';
+        const prev   = '#' + id + ' .slider-prev';
+        const scroll = '#' + id + ' .swiper-scrollbar';
 
-    console.log( next );
-
-    var swiperslider = new Swiper( postslider, {
-        navigation: {
-            nextEl: next,
-            prevEl: prev,
-        },
-        scrollbar: {
-            el: scroll,
-            hide: true,
-        },
-        breakpoints: {
-            640: {
-              slidesPerView: 1,
-              spaceBetween: 20,
+        var swiperslider = new Swiper( postslider, {
+            navigation: {
+                nextEl: next,
+                prevEl: prev,
             },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 30,
+            scrollbar: {
+                el: scroll,
+                hide: true,
             },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 30,
+            breakpoints: {
+                640: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                },
+                768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+                },
+                1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                },
             },
-        },
-    });
-    
+        });
+    }
 }
 
 
 
 
-const videothumbnail = document.querySelector( '.block-two-column .image-thumbnail' );
-const videoIframe    = document.querySelector( '.block-two-column iframe' );
-videothumbnail.addEventListener( 'click', function() {
-    this.style.display = 'none';
-    videoIframe.style.display = 'block';
-});
+
+const block_two = document.querySelector( '.block-two-column' );
+if ( block_two ) {
+    const videothumbnail = block_two.querySelector( '.image-thumbnail' );
+    const videoIframe    = block_two.querySelector( 'iframe' );
+
+    videothumbnail.addEventListener( 'click', function() {
+        this.style.display = 'none';
+        videoIframe.style.display = 'block';
+    });
+}
+
+
+
+
+const block_video = document.querySelector( '.block-video' );
+if ( block_video ) {
+    const video = block_video.querySelector( 'iframe' );
+    const image = block_video.querySelector( '.image-video' );
+
+    image.addEventListener( 'click', function() {
+        this.classList.add( 'hide_active' );
+        video.classList.add( 'show_active' );
+    });
+}
+
+
+
+const block_accordion = document.querySelector( '.block-accordion' );
+if ( block_accordion ) {
+    const item = block_accordion.querySelectorAll( '.item-accordion' );
+    for (let i = 0; i < item.length; i++) {
+        const itemaccordion = item[i];
+        const head = itemaccordion.querySelector( '.head' );
+
+        head.addEventListener( 'click', function() {
+            const parent = this.closest( '.item-accordion' );
+            parent.classList.toggle( 'active' );
+        });
+    };
+}
+
+
+
+
+const blog_slider = document.querySelector( '.slider-blog' );
+if ( blog_slider ) {
+
+    var swiperslider = new Swiper( blog_slider, {
+        navigation: {
+            nextEl: ".blog-next",
+            prevEl: ".blog-prev",
+        },
+        scrollbar: {
+            el: ".swiper-scrollbar",
+            hide: true,
+        },
+        breakpoints: {
+            640: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            },
+            768: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+            },
+            1024: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            },
+        },
+    });
+
+}

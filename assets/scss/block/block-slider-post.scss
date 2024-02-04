@@ -23,32 +23,17 @@
         padding-bottom: 40px;
 
         .item-slide {
-            text-decoration: unset;
             .post-media {
                 position: relative;
                 height: 150px;
 
-                .post-category {
+                .category-post {
                     width: fit-content;
                     position: absolute;
                     top: 8px;
                     left: 8px;
-                    font-size: 10px;
-                    color: $color-white;
-                    font-weight: 600;
-                    padding: 5px 10px;
-                    border-radius: 6px;
-
-                    &.green {
-                        background-color: $color-green;
-                    }
-                    &.red {
-                        background-color: $color-red;
-                    }
-                    &.blue {
-                        background-color: $color-blue;
-                    }
                 }
+                
                 img {
                     width: 100%;
                     height: 100%;
@@ -57,9 +42,12 @@
                 }
             }
             h3 {
-                text-decoration: unset;
                 margin-bottom: 0;
                 margin-top: 10px;
+                a {
+                    text-decoration: unset;
+                    color: $color-black;
+                }
             }
         }
 
