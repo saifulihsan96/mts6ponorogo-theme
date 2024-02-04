@@ -32,7 +32,7 @@ $select    = get_field( 'select_post' );
 $mirrors   = get_field( 'post_custom' );
 $head_text = get_field( 'text_section' );
 $link      = get_field( 'link_next' );
-$link_next = ( $link ) ? '<a href="/" class="next">Selengkapnya</a>' : '';
+$link_next = ( $link ) ? '<a href="/artikel" class="next">Selengkapnya</a>' : '';
 
 if ( $select == 'dynamis' ) {
 

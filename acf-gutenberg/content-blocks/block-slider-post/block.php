@@ -30,7 +30,7 @@ if ( ! empty( $block['align'] ) ) {
 $itemslide  = '';
 $name_sec   = get_field( 'name_section' );
 $link       = get_field( 'link_next' );
-$link_next  = ( $link ) ? '<a href="/" class="next">Selengkapnya</a>' : '';
+$link_next  = ( $link ) ? '<a href="/artikel" class="next">Selengkapnya</a>' : '';
 $sliderpost = get_field( 'post_slider' );
 
 if ( $sliderpost && $name_sec ) {
