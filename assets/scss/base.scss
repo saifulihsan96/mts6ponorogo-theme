@@ -30,7 +30,15 @@ a {
     }
 }
 
-.mts-container, .gspb_row__content {
+input, select, textarea {
+    background-color: #f5f5f5;
+    font-family: 'Montserrat', sans-serif !important;
+}
+input, select {
+    height: 45px;
+}
+
+.mts-container {
     margin: 0 auto;
     max-width: 1200px;
     
@@ -40,9 +48,14 @@ a {
     @media( min-width: 601px ) {
         padding: 0 20px;
     }
+
+    .mts-container {
+        padding: 0;
+    }
 }
-.gspb_row__content > div {
-    padding: 0 !important;
+
+body div[id^=gspb_col-id] {
+    padding: unset;
 }
 
 
@@ -102,7 +115,7 @@ p {
     }
 }
 
-.button {
+.button, .gspb-buttonbox {
     padding: 15px 20px;
     border-radius: 8px;
     background-color: $color-green;
@@ -116,6 +129,17 @@ p {
     &:hover {
         background-color: $color-white;
         color: $color-green;
+    }
+}
+
+.ff-btn-submit {
+    background-color: $color-green !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600;
+    padding: 12px 20px !important;
+    &:hover {
+        background-color: $color-white !important;
+        color: $color-green !important;
     }
 }
 
@@ -158,378 +182,7 @@ p {
     margin: 80px 0 0;
 }
 
-
-
-
-
-
-
-
-.blog-template {
-    .row-post {
-        margin-top: 100px;
-    }
-
-    .text-heading {
-        margin-top: 0;
-        margin-bottom: 30px;
-    }
-
-    .head-text {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 25px;
-
-        h2 {
-            margin: 0;
-        }
-        a {
-            text-underline-offset: 8px;
-            font-weight: 600;
-        }
-    }
-
-    .post-grid {
-        display: grid;
-        grid-gap: 30px;
-
-        @include responsive( tab-port ) {
-            grid-template-columns: 1fr;
-        }
-        @include responsive( phone-small ) {
-            grid-gap: 40px;
-        }
-
-        .item-post {
-            text-decoration: unset;
-            display: grid;
-            grid-template-columns: 30% 65%;
-            grid-gap: 5%;
-
-            @include responsive( phone-small ) {
-                grid-template-columns: 100%;
-                grid-gap: 20px;
-            }
-
-            img {
-                border-radius: 10px;
-                width: 100%;
-                height: 180px;
-                object-fit: cover;
-
-                @include responsive( tab-port ) {
-                    max-width: unset;
-                }
-
-            }
-            .content-post {
-                .date {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: $color-green;
-                    margin-bottom: 10px;
-                }
-                h3 {
-                    margin-top: 0;
-                    margin-bottom: 5px;
-                    font-size: 18px;
-                    a {
-                        text-decoration: unset;
-                        color: $color-white;
-                    }
-                }
-                p {
-                    margin: 0;
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-
-    .row-post {
-        display: grid;
-        grid-template-columns: 70% 22%;
-        grid-gap: 8%;
-
-        @include responsive( tab-port ) {
-            grid-template-columns: 100%;
-            grid-gap: 40px;
-        }
-
-        .content-grid-post {
-            .section-post {
-                margin-bottom: 80px;
-
-                &:last-child {
-                    margin-bottom: 0;
-                }
-
-                .slider-blog {
-                    padding-bottom: 40px;
-
-                    .item-slide {
-                        .post-media {
-                            position: relative;
-                            height: 150px;
-            
-                            .category-post {
-                                width: fit-content;
-                                position: absolute;
-                                top: 8px;
-                                left: 8px;
-                            }
-                            
-                            img {
-                                width: 100%;
-                                height: 100%;
-                                border-radius: 10px;
-                                object-fit: cover;
-                            }
-                        }
-                        h3 {
-                            margin-bottom: 0;
-                            margin-top: 10px;
-                            font-size: 14px;
-                            a {
-                                text-decoration: unset;
-                                color: $color-black;
-                            }
-                        }
-                    }
-            
-                    .setArrow {
-                        width: 27px;
-                        height: 33px;
-                        background-color: $color-white;
-                        border-radius: 3px;
-            
-                        &::after {
-                            font-size: 18px;
-                            font-weight: 900;
-                            color: $color-green;
-                        }
-                    }
-            
-                    .swiper-scrollbar {
-                        background-color: #D9D9D9;
-                        opacity: 1 !important;
-                        border-radius: 0;
-            
-                        .swiper-scrollbar-drag {
-                            background-color: $color-green;
-                            border-radius: 0;
-                        }
-                    }
-
-                }
-
-                .grid-blog-post {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    grid-gap: 30px 20px;
-
-                    @include responsive( phone ) {
-                        grid-template-columns: 1fr 1fr;
-                    }
-                    @include responsive( phone-small ) {
-                        grid-template-columns: 100%;
-                    }
-
-                    .item-post {
-            
-                        img {
-                            border-radius: 10px;
-                            width: 100%;
-                            height: 180px;
-                            object-fit: cover;
-                            margin-bottom: 10px;
-                        }
-                        .content-post {
-                            .date {
-                                font-size: 14px;
-                                font-weight: 500;
-                                color: $color-green;
-                                margin-bottom: 10px;
-                            }
-                            h3 {
-                                margin-top: 0;
-                                margin-bottom: 5px;
-                                font-size: 14px;
-                                a {
-                                    color: $color-black;
-                                    text-decoration: unset;
-                                }
-                            }
-                            p {
-                                margin: 0;
-                                font-size: 13px;
-                            }
-                        }
-                    }
-                }
-
-                .post-box {
-                    overflow: hidden;
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    border-radius: 10px;
-
-                    @include responsive( phone ) {
-                        grid-template-columns: 100%;
-                        grid-gap: 30px;
-                    }
-
-                    .post-box-item {
-                        position: relative;
-                        width: 100%;
-                        height: 400px;
-                        overflow: hidden;
-                        display: grid;
-
-                        @include responsive( phone ) {
-                            border-radius: 10px;
-                            height: 300px;
-                        }
-
-                        .post-media {
-                            position: relative;
-                            width: 100%;
-                            height: 100%;
-
-                            img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                                filter: brightness(0.4);
-                            }
-                        }
-
-                        .content-post {
-                            position: absolute;
-                            z-index: 2;
-                            bottom: 0;
-                            left: 0;
-                            width: 100%;
-
-                            .box-content {
-                                padding: 30px;
-
-                                @include responsive( phone-small ) {
-                                    padding: 15px 15px 20px 15px;
-                                }
-
-                                .date {
-                                    font-size: 13px;
-                                    color: $color-yellow;
-                                }
-
-                                h3 {
-                                    font-size: 17px;
-                                    margin-top: 5px;
-                                    margin-bottom: 0;
-                                    a {
-                                        text-decoration: unset;
-                                        color: $color-white;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-.row-content-template {
-    display: grid;
-    grid-template-columns: 70% 22%;
-    grid-gap: 8%;
-
-    @include responsive( tab-port ) {
-        grid-template-columns: 100%;
-        grid-gap: 40px;
-    }
-
-    .content-inner {
-
-        article {
-            padding: 30px 0;
-            border-bottom: 1px solid #ddd;
-
-            &:first-child {
-                padding-top: 0;
-            }
-        }
-
-        .post_item {
-            display: flex;
-            align-items: center;
-
-            @include responsive( phone-small ) {
-                flex-direction: column;
-            }
-
-            .post-thumbnail {
-                width: 32%;
-                margin-right: 3%;
-
-                @include responsive( phone-small ) {
-                    width: 100%;
-                    margin-bottom: 10px;
-                }
-
-                img {
-                    border-radius: 10px;
-                    width: 100%;
-                    height: 180px;
-                    object-fit: cover;
-
-                    @include responsive( tab-port ) {
-                        max-width: unset;
-                    }
-
-                }
-            }
-
-            .content-post {
-                width: 65%;
-                @include responsive( phone-small ) {
-                    width: 100%;
-                }
-
-                .date {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: $color-green;
-                    margin-bottom: 10px;
-                }
-                .entry-title {
-                    margin-top: 0;
-                    margin-bottom: 5px;
-                    font-size: 18px;
-                    a {
-                        color: $color-black;
-                        text-decoration: unset;
-                    }
-                }
-                p {
-                    margin: 0;
-                    font-size: 14px;
-                }
-            }
-        }
-
-        .pagination {
-            margin-top: 30px;
-        }
-    }
+.full-width {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
 }
