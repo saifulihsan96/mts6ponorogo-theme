@@ -137,7 +137,12 @@
             }
 
             .row-plagination {
-                max-width: 480px;
+                max-width: 550px;
+
+                @include responsive( phone ) {
+                    margin: auto;
+                }
+
                 .column {
                     width: 100%;
                     display: flex;
