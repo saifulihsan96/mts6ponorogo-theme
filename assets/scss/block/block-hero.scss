@@ -148,7 +148,6 @@
 
                     @include responsive( phone ) {
                         color: $color-black;
-                        font-size: 11px;
                     }
 
                     .item-plagination {
@@ -157,7 +156,9 @@
 
                         @include responsive( phone ) {
                             text-align: center;
-                            padding: 0 10px;
+                            padding: 0;
+                            font-size: 12px;
+                            font-weight: 700;
                         }
                     }
                 }
