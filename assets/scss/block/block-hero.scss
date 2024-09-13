@@ -34,7 +34,8 @@
 
                 .mts-container {
                     display: grid;
-                    grid-template-columns: 65% 35%;
+                    grid-template-columns: 1fr 35%;
+                    width: -webkit-fill-available;
 
                     @include responsive( phone ) {
                         grid-template-columns: 100%;
