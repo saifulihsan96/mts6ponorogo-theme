@@ -4,19 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack && node-sass assets/scss/main.scss dist/css/main.css && postcss dist/css/main.css --output dist/css/main.css",
-    "build-css": "node-sass assets/scss/main.scss dist/css/main.css && postcss dist/css/main.css --output dist/css/main.css"
+    "build": "webpack && sass assets/scss/main.scss dist/css/main.css && postcss dist/css/main.css --output dist/css/main.css",
+    "pass": "webpack && sass app-passed/assets/style-passed.scss dist/css/main-passed.css && postcss dist/css/main-passed.css --output dist/css/main-passed.css"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "cssnano": "^6.0.1",
-    "node-sass": "^9.0.0",
     "postcss-cli": "^10.1.0",
+    "sass": "^1.89.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
-  },
-  "dependencies": {
-    "sass": "^1.78.0"
   }
 }

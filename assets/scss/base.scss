@@ -1,188 +1,174 @@
-
-$color-green : #108448;
-$color-yellow : #FFF000;
-$color-blue : #0D6EFD;
-$color-red : #FF0000;
-$color-gray : #706E6E;
-$color-black : #000;
-$color-white : #fff;
+@use "./utils/variables" as *;
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    font-size: 15px;
-    margin: 0;
-    color: $color-gray;
-    line-height: 1.4;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  margin: 0;
+  color: $color-gray;
+  line-height: 1.4;
 }
 
 strong {
-    font-weight: 600;
-    color: $color-black;
+  font-weight: 600;
+  color: $color-black;
 }
 
 a {
-    text-underline-offset: 3px;
-    color: $color-green;
+  text-underline-offset: 3px;
+  color: $color-green;
 
-    &:hover {
-        color: #053f21;
-    }
+  &:hover {
+    color: #053f21;
+  }
 }
 
-input, select, textarea {
-    background-color: #f5f5f5;
-    font-family: 'Montserrat', sans-serif !important;
+input,
+select,
+textarea {
+  background-color: #f5f5f5;
+  font-family: "Montserrat", sans-serif !important;
 }
-input, select {
-    height: 45px;
+input,
+select {
+  height: 45px;
 }
 
 .mts-container {
-    margin: 0 auto;
-    max-width: 1200px;
-    
-    @media( max-width: 600px ) {
-        padding: 0 5vw;
-    }
-    @media( min-width: 601px ) {
-        padding: 0 20px;
-    }
+  margin: 0 auto;
+  max-width: 1200px;
 
-    .mts-container {
-        padding: 0;
-    }
-}
+  @media (max-width: 600px) {
+    padding: 0 5vw;
+  }
+  @media (min-width: 601px) {
+    padding: 0 20px;
+  }
 
-body div[id^=gspb_col-id] {
-    padding: unset;
+  .mts-container {
+    padding: 0;
+  }
 }
 
+body div[id^="gspb_col-id"] {
+  padding: unset;
+}
 
-h1, .heading1 {
-    font-size: clamp(30px, calc(1.875rem + ((1vw - 3.2px) * 1.1364)), 40px);
-    // font-weight: 700;
-    line-height: 1.3;
-    color: $color-black;
+h1,
+.heading1 {
+  font-size: clamp(30px, calc(1.875rem + ((1vw - 3.2px) * 1.1364)), 40px);
+  // font-weight: 700;
+  line-height: 1.3;
+  color: $color-black;
 }
-h2, .heading2 {
-    font-size: clamp(27px, calc(1.6875rem + ((1vw - 3.2px) * 0.9091)), 35px);
-    // font-weight: 700;
-    line-height: 1.3;
-    color: $color-black;
+h2,
+.heading2 {
+  font-size: clamp(27px, calc(1.6875rem + ((1vw - 3.2px) * 0.9091)), 35px);
+  // font-weight: 700;
+  line-height: 1.3;
+  color: $color-black;
 }
-h3, .heading3 {
-    font-size: clamp(25px, calc(1.5625rem + ((1vw - 3.4px) * 0.3061)), 28px);
-    // font-weight: 700;
-    line-height: 1.3;
-    color: $color-black;
+h3,
+.heading3 {
+  font-size: clamp(25px, calc(1.5625rem + ((1vw - 3.4px) * 0.3061)), 28px);
+  // font-weight: 700;
+  line-height: 1.3;
+  color: $color-black;
 }
-h4, .heading4 {
-    font-size: clamp(20px, calc(1.25rem + ((1vw - 3.4px) * 0.4082)), 24px);
-    // font-weight: 700;
-    line-height: 1.3;
-    color: $color-black;
+h4,
+.heading4 {
+  font-size: clamp(20px, calc(1.25rem + ((1vw - 3.4px) * 0.4082)), 24px);
+  // font-weight: 700;
+  line-height: 1.3;
+  color: $color-black;
 }
-h5, .heading5 {
-    font-size: clamp(18px, calc(1.125rem + ((1vw - 3.2px) * 0.2273)), 20px);
-    // font-weight: 700;
-    line-height: 1.3;
-    color: $color-black;
+h5,
+.heading5 {
+  font-size: clamp(18px, calc(1.125rem + ((1vw - 3.2px) * 0.2273)), 20px);
+  // font-weight: 700;
+  line-height: 1.3;
+  color: $color-black;
 }
 .title-post {
-    font-size: 17px;
+  font-size: 17px;
 }
 
 p {
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.4;
-    color: $color-gray;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: $color-gray;
 }
 
-@mixin responsive($breakpoint) {
-    @if $breakpoint == phone-small {
-        @media only screen and (max-width: 576px) { @content };
-    }
-    @if $breakpoint == phone {
-        @media only screen and (max-width: 767px) { @content };
-    }
-    @if $breakpoint == tab-port {
-        @media only screen and (max-width: 991px) { @content };
-    }
-    @if $breakpoint == tab-land {
-        @media only screen and (max-width: 1024px) { @content };
-    }
-}
+.button,
+.gspb-buttonbox {
+  padding: 15px 20px;
+  border-radius: 8px;
+  background-color: $color-green;
+  color: $color-white;
+  font-weight: 600;
+  display: block;
+  text-decoration: unset;
+  width: fit-content;
+  transition: 0.3s ease;
 
-.button, .gspb-buttonbox {
-    padding: 15px 20px;
-    border-radius: 8px;
-    background-color: $color-green;
-    color: $color-white;
-    font-weight: 600;
-    display: block;
-    text-decoration: unset;
-    width: fit-content;
-    transition: 0.3s ease;
-
-    &:hover {
-        background-color: $color-white;
-        color: $color-green;
-    }
+  &:hover {
+    background-color: $color-white;
+    color: $color-green;
+  }
 }
 
 .ff-btn-submit {
-    background-color: $color-green !important;
-    font-family: 'Montserrat', sans-serif !important;
-    font-weight: 600;
-    padding: 12px 20px !important;
-    &:hover {
-        background-color: $color-white !important;
-        color: $color-green !important;
-    }
+  background-color: $color-green !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 600;
+  padding: 12px 20px !important;
+  &:hover {
+    background-color: $color-white !important;
+    color: $color-green !important;
+  }
 }
 
 .block-editor-page {
-    .wp-block {
-        max-width: unset !important;
-    }
+  .wp-block {
+    max-width: unset !important;
+  }
 }
 
 .category-post {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 
-    .item-category {
-        width: fit-content;
-        font-size: 10px;
-        color: $color-white;
-        font-weight: 600;
-        padding: 4px 7px;
-        border-radius: 5px;
-        text-decoration: unset;
-        margin-right: 8px;
+  .item-category {
+    width: fit-content;
+    font-size: 10px;
+    color: $color-white;
+    font-weight: 600;
+    padding: 4px 7px;
+    border-radius: 5px;
+    text-decoration: unset;
+    margin-right: 8px;
 
-        &:last-child {
-            margin-right: 0;
-        }
-
-        &.green {
-            background-color: $color-green;
-        }
-        &.red {
-            background-color: $color-red;
-        }
-        &.blue {
-            background-color: $color-blue;
-        }
+    &:last-child {
+      margin-right: 0;
     }
+
+    &.green {
+      background-color: $color-green;
+    }
+    &.red {
+      background-color: $color-red;
+    }
+    &.blue {
+      background-color: $color-blue;
+    }
+  }
 }
 
 .error-404 {
-    margin: 80px 0 0;
+  margin: 80px 0 0;
 }
 
 .full-width {
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }

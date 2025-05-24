@@ -1,21 +1,22 @@
+@use "utils/mixins" as *;
+@use "utils/variables" as *;
 
-@import 'font';
-@import 'typography';
-@import 'base';
-@import 'icon';
+@use "font";
+@use "typography";
+@use "base";
+@use "icon";
+@use "layout/header";
+@use "layout/footer";
+@use "layout/single";
+@use "layout/page";
+@use "layout/blog";
+@use "layout/template";
 
-@import 'layout/header';
-@import 'layout/footer';
-@import 'layout/single';
-@import 'layout/page';
-@import 'layout/blog';
-@import 'layout/template';
-
-@import 'block/block-featured';
-@import 'block/block-hero';
-@import 'block/block-slider-post';
-@import 'block/block-two-column';
-@import 'block/block-post-mirror';
-@import 'block/block-post-grid';
-@import 'block/block-video';
-@import 'block/block-accordion';
+@use "block/block-featured";
+@use "block/block-hero";
+@use "block/block-slider-post";
+@use "block/block-two-column";
+@use "block/block-post-mirror";
+@use "block/block-post-grid";
+@use "block/block-video";
+@use "block/block-accordion";

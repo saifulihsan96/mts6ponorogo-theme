@@ -1,40 +1,43 @@
+@use "../utils/mixins" as *;
+@use "../utils/variables" as *;
+
 .block-accordion {
-    .list-accordion {
-        max-width: 750px;
-        width: 100%;
-        margin: auto;
+  .list-accordion {
+    max-width: 750px;
+    width: 100%;
+    margin: auto;
 
-        .item-accordion {
-            .head {
-                font-weight: 700;
-                font-size: 20px;
-                color: $color-black;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 20px 0;
-                border-bottom: 1px solid #D2D2D2;
+    .item-accordion {
+      .head {
+        font-weight: 700;
+        font-size: 20px;
+        color: $color-black;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0;
+        border-bottom: 1px solid #d2d2d2;
 
-                .minus {
-                    display: none;
-                    margin-left: 10px;
-                }
-                .plus {
-                    display: block;
-                    margin-left: 10px;
-                }
-            }
-            .text {
-                display: none;
-                margin-top: 15px;
-                margin-bottom: 25px;
-            }
-            &.active {
-                .text {
-                    display: block;
-                }
-            }
+        .minus {
+          display: none;
+          margin-left: 10px;
         }
+        .plus {
+          display: block;
+          margin-left: 10px;
+        }
+      }
+      .text {
+        display: none;
+        margin-top: 15px;
+        margin-bottom: 25px;
+      }
+      &.active {
+        .text {
+          display: block;
+        }
+      }
     }
+  }
 }
