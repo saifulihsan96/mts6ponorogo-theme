@@ -1,41 +1,42 @@
-
+@use "../utils/mixins" as *;
+@use "../utils/variables" as *;
 
 .head-page {
-    background-color: #F6F6F6;
-    padding: 70px 0;
-    margin-bottom: 50px;
+  background-color: #f6f6f6;
+  padding: 70px 0;
+  margin-bottom: 50px;
 
-    h1 {
-        margin-top: 0;
-        margin-bottom: 10px;
+  h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .nav-page {
+    display: flex;
+    font-size: 13px;
+    align-items: center;
+
+    a {
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: unset;
+      color: $color-black;
+
+      display: flex;
+      align-items: center;
+
+      &::after {
+        content: "";
+        background-color: $color-green;
+        width: 7px;
+        height: 7px;
+        border-radius: 100px;
+        display: block;
+        margin: 0 8px;
+      }
     }
-    .nav-page {
-        display: flex;
-        font-size: 13px;
-        align-items: center;
 
-        a {
-            font-weight: 700;
-            font-size: 13px;
-            text-decoration: unset;
-            color: $color-black;
-
-            display: flex;
-            align-items: center;
-
-            &::after {
-                content: '';
-                background-color: $color-green;
-                width: 7px;
-                height: 7px;
-                border-radius: 100px;
-                display: block;
-                margin: 0 8px;
-            }
-        }
-
-        span {
-            color: #717171;
-        }
+    span {
+      color: #717171;
     }
+  }
 }

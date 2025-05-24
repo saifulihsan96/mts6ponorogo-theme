@@ -1,78 +1,80 @@
+@use "../utils/mixins" as *;
+@use "../utils/variables" as *;
 
 .block-slider-post {
-    margin: 100px 0;
+  margin: 100px 0;
 
-    .head-section {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        justify-content: space-between;
+  .head-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    justify-content: space-between;
 
-        h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
+    h2 {
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+    a {
+      font-weight: 600;
+      text-underline-offset: 8px;
+      font-size: 15px;
+    }
+  }
+
+  .carousel-post {
+    padding-bottom: 40px;
+
+    .item-slide {
+      .post-media {
+        position: relative;
+        height: 150px;
+
+        .category-post {
+          width: fit-content;
+          position: absolute;
+          top: 8px;
+          left: 8px;
         }
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 10px;
+          object-fit: cover;
+        }
+      }
+      h3 {
+        margin-bottom: 0;
+        margin-top: 10px;
         a {
-            font-weight: 600;
-            text-underline-offset: 8px;
-            font-size: 15px;
+          text-decoration: unset;
+          color: $color-black;
         }
+      }
     }
 
-    .carousel-post {
-        padding-bottom: 40px;
+    .setArrow {
+      width: 27px;
+      height: 33px;
+      background-color: $color-white;
+      border-radius: 3px;
 
-        .item-slide {
-            .post-media {
-                position: relative;
-                height: 150px;
-
-                .category-post {
-                    width: fit-content;
-                    position: absolute;
-                    top: 8px;
-                    left: 8px;
-                }
-                
-                img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 10px;
-                    object-fit: cover;
-                }
-            }
-            h3 {
-                margin-bottom: 0;
-                margin-top: 10px;
-                a {
-                    text-decoration: unset;
-                    color: $color-black;
-                }
-            }
-        }
-
-        .setArrow {
-            width: 27px;
-            height: 33px;
-            background-color: $color-white;
-            border-radius: 3px;
-
-            &::after {
-                font-size: 18px;
-                font-weight: 900;
-                color: $color-green;
-            }
-        }
-
-        .swiper-scrollbar {
-            background-color: #D9D9D9;
-            opacity: 1 !important;
-            border-radius: 0;
-
-            .swiper-scrollbar-drag {
-                background-color: $color-green;
-                border-radius: 0;
-            }
-        }
+      &::after {
+        font-size: 18px;
+        font-weight: 900;
+        color: $color-green;
+      }
     }
+
+    .swiper-scrollbar {
+      background-color: #d9d9d9;
+      opacity: 1 !important;
+      border-radius: 0;
+
+      .swiper-scrollbar-drag {
+        background-color: $color-green;
+        border-radius: 0;
+      }
+    }
+  }
 }

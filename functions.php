@@ -298,3 +298,144 @@ function category_post( $id ) {
 	$html = '<div class="category-post">' . $item_category . '</div>';
 	return $html;
 }
+
+add_filter('show_admin_bar', function($show) {
+  if (is_page('cek-kelulusan')) {
+    return false;
+  }
+  return $show;
+});
+
+
+function check_passed() {
+	$nisn = isset($_POST['nisn']) ? sanitize_text_field($_POST['nisn']) : '';
+	$data = [
+    [
+        'nama' => 'Saiful Alamsyah',
+        'nisn' => '123456',
+        'status' => 'lulus'
+    ],
+    [
+        'nama' => 'Rina Putri',
+        'nisn' => '123457',
+        'status' => 'lulus'
+    ],
+    [
+        'nama' => 'Budi Santoso',
+        'nisn' => '123458',
+        'status' => 'tidak lulus'
+    ],
+    [
+        'nama' => 'Ayu Lestari',
+        'nisn' => '123459',
+        'status' => 'lulus'
+    ],
+    [
+        'nama' => 'Dedi Pratama',
+        'nisn' => '123460',
+        'status' => 'lulus'
+    ],
+    [
+        'nama' => 'Siti Aminah',
+        'nisn' => '123461',
+        'status' => 'tidak lulus'
+    ],
+    [
+        'nama' => 'Ahmad Zulfikar',
+        'nisn' => '123462',
+        'status' => 'lulus'
+    ],
+    [
+        'nama' => 'Lina Marlina',
+        'nisn' => '123463',
+        'status' => 'lulus'
+    ],
+    [
+        'nama' => 'Yusuf Hidayat',
+        'nisn' => '123464',
+        'status' => 'tidak lulus'
+    ],
+    [
+        'nama' => 'Indah Permatasari',
+        'nisn' => '123465',
+        'status' => 'lulus'
+    ]
+	];
+
+	$passed = true;
+	$status = "";
+	$login = false;
+	foreach ($data as $key => $value) {
+		if ($value['nisn'] == $nisn) {
+			$login = true;
+			$status = $value['status'];
+			$nama = $value['nama'];
+			$nisn = $value['nisn'];
+
+			if ($status === "tidak lulus") {
+				$passed = false;
+			}
+			break;
+		} else {
+			$login = false;
+		}
+	}
+
+	$homeUrl = get_template_directory_uri();
+	$checkPassed = $passed ? "" : "no-passed";
+	$statusText = $passed ? "Selamat Anda Dinyatakan Lulus" : "Maaf Anda Dinyatakan Tidak Lulus";
+	$content = <<<HTML
+	<div class="success-login">
+		<div class="success-header {$checkPassed}">
+			<div id="lottie-animation"></div>
+			<div id="lottie-animation-2"></div>
+		</div>
+		<div class="status-text {$checkPassed}">{$statusText}</div>
+		<div class="success-content">
+			<div class="item">
+				<div class="label">Nama</div>
+				<h2>{$nama}</h2>
+			</div>
+			<div class="item">
+				<div class="label">NISN</div>
+				<div class="nomer-nisn">{$nisn}</div>
+			</div>
+			<div class="item">
+				<div class="label">Status</div>
+				<p>{$status}</p>
+			</div>
+	</div>
+
+	<script>
+		const containerLottie = document.getElementById("lottie-animation");
+		const containerLottie2 = document.getElementById("lottie-animation-2");
+		const anim = lottie.loadAnimation({
+			container: containerLottie,
+			renderer: "svg",
+			loop: true,
+			autoplay: true,
+			path: "{$homeUrl}/app-passed/assets/animation.json"
+		});
+		const anim2 = lottie.loadAnimation({
+			container: containerLottie2,
+			renderer: "svg",
+			loop: false,
+			autoplay: true,
+			path: "{$homeUrl}/app-passed/assets/no2.json"
+		});
+		anim.setSpeed(0.4);
+	</script>
+HTML;
+
+	$response = [
+		'login'  => $login,
+		'nama'   => $nama,
+		'nisn'   => $nisn,
+		'status' => $status,
+		'content' => $content
+	];
+	wp_send_json($response);
+	exit;
+}
+add_action('wp_ajax_check_passed', 'check_passed');
+add_action('wp_ajax_nopriv_check_passed', 'check_passed');
