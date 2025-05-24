@@ -311,13 +311,8 @@ function check_passed() {
 	$nisn = isset($_POST['nisn']) ? sanitize_text_field($_POST['nisn']) : '';
 	$data = [
     [
-        'nama' => 'Saiful Alamsyah',
-        'nisn' => '123456',
-        'status' => 'lulus'
-    ],
-    [
         'nama' => 'Rina Putri',
-        'nisn' => '123457',
+        'nisn' => '123456',
         'status' => 'lulus'
     ],
     [
@@ -404,6 +399,11 @@ function check_passed() {
 				<div class="label">Status</div>
 				<p>{$status}</p>
 			</div>
+		</div>
+		<div class="success-footer">
+			<img src="/wp-content/uploads/2024/01/logo.svg" alt="logo">
+			<div class="text">Madrasah Tsanawiyah Negeri 6 Tahun Ajaran 2024/2025</div>
+		</div>
 	</div>
 
 	<script>
