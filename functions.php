@@ -401,7 +401,7 @@ function check_passed() {
 			</div>
 		</div>
 		<div class="success-footer">
-			<img src="/wp-content/uploads/2024/01/logo.svg" alt="logo">
+			<img src="https://madsanampo.sch.id/wp-content/uploads/2024/01/Logo-mts.svg" alt="logo">
 			<div class="text">Madrasah Tsanawiyah Negeri 6 Tahun Ajaran 2024/2025</div>
 		</div>
 	</div>
