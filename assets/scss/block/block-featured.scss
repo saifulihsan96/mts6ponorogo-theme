@@ -1,44 +1,47 @@
+@use "../utils/mixins" as *;
+@use "../utils/variables" as *;
+
 .block-featured {
-    background-color: $color-green;
-    padding: 60px 0;
+  background-color: $color-green;
+  padding: 60px 0;
 
-    .row-featured {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-gap: 20px;
-        justify-content: center;
+  .row-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    justify-content: center;
 
-        @include responsive( tab-port ) {
-            grid-template-columns: 1fr 1fr;
-        }
-        @include responsive( phone ) {
-            grid-template-columns: 1fr;
-            grid-gap: 40px;
-        }
-
-        .item-featured {
-            display: flex;
-            align-items: center;
-
-            .content {
-                margin-left: 20px;
-                color: $color-white;
-                h3 {
-                    margin-top: 0;
-                    margin-bottom: 5px;
-                    color: $color-white;
-                    font-size: 20px;
-                }
-                .information {
-                    line-height: 1.2;
-                    font-size: 14px;
-                    span {
-                        font-size: 24px;
-                        color: $color-yellow;
-                        font-weight: 600;
-                    }
-                }
-            }
-        }
+    @include responsive(tab-port) {
+      grid-template-columns: 1fr 1fr;
     }
+    @include responsive(phone) {
+      grid-template-columns: 1fr;
+      grid-gap: 40px;
+    }
+
+    .item-featured {
+      display: flex;
+      align-items: center;
+
+      .content {
+        margin-left: 20px;
+        color: $color-white;
+        h3 {
+          margin-top: 0;
+          margin-bottom: 5px;
+          color: $color-white;
+          font-size: 20px;
+        }
+        .information {
+          line-height: 1.2;
+          font-size: 14px;
+          span {
+            font-size: 24px;
+            color: $color-yellow;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
 }
