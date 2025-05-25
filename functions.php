@@ -309,71 +309,57 @@ add_filter('show_admin_bar', function($show) {
 
 function check_passed() {
 	$nisn = isset($_POST['nisn']) ? sanitize_text_field($_POST['nisn']) : '';
-	$data = [
-    [
-        'nama' => 'Rina Putri',
-        'nisn' => '123456',
-        'status' => 'lulus'
-    ],
-    [
-        'nama' => 'Budi Santoso',
-        'nisn' => '123458',
-        'status' => 'tidak lulus'
-    ],
-    [
-        'nama' => 'Ayu Lestari',
-        'nisn' => '123459',
-        'status' => 'lulus'
-    ],
-    [
-        'nama' => 'Dedi Pratama',
-        'nisn' => '123460',
-        'status' => 'lulus'
-    ],
-    [
-        'nama' => 'Siti Aminah',
-        'nisn' => '123461',
-        'status' => 'tidak lulus'
-    ],
-    [
-        'nama' => 'Ahmad Zulfikar',
-        'nisn' => '123462',
-        'status' => 'lulus'
-    ],
-    [
-        'nama' => 'Lina Marlina',
-        'nisn' => '123463',
-        'status' => 'lulus'
-    ],
-    [
-        'nama' => 'Yusuf Hidayat',
-        'nisn' => '123464',
-        'status' => 'tidak lulus'
-    ],
-    [
-        'nama' => 'Indah Permatasari',
-        'nisn' => '123465',
-        'status' => 'lulus'
-    ]
-	];
+	$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
+	$post_id = isset($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '';
+
+	$data = get_field('data_siswa', $post_id);
+
+	$ttlField = "";
+	$nisnField = "";
+	$nameField = "";
+	$status = "";
 
 	$passed = true;
-	$status = "";
 	$login = false;
+
+	$responError = "";
+	$nisnError = false;
+	$passError = false;
+
 	foreach ($data as $key => $value) {
-		if ($value['nisn'] == $nisn) {
+		if ($value['nisn'] == $nisn && $value['password'] == $password) {
 			$login = true;
 			$status = $value['status'];
-			$nama = $value['nama'];
-			$nisn = $value['nisn'];
+			$nameField = $value['nama'];
+			$nisnField = $value['nisn'];
+			$ttlField = $value['tempat_tanggal_lahir'];
 
-			if ($status === "tidak lulus") {
+			if ($status === "Tidak Lulus") {
 				$passed = false;
 			}
 			break;
 		} else {
 			$login = false;
 		}
+	}
+
+	if (!$login) {
+    $nisnMatch = false;
+    foreach ($data as $value) {
+			if ($value['nisn'] == $nisn) {
+				$nisnMatch = true;
+				if ($value['password'] != $password) {
+					$passError = true;
+					$responError = "Password salah";
+				}
+				break;
+			}
+    }
+
+    if (!$nisnMatch) {
+			$nisnError = true;
+			$responError = "NISN tidak terdaftar";
+    }
 	}
 
 	$homeUrl = get_template_directory_uri();
@@ -389,15 +375,19 @@ function check_passed() {
 		<div class="success-content">
 			<div class="item">
 				<div class="label">Nama</div>
-				<h2>{$nama}</h2>
+				<h2>{$nameField}</h2>
 			</div>
 			<div class="item">
 				<div class="label">NISN</div>
-				<div class="nomer-nisn">{$nisn}</div>
+				<div class="nomer-nisn">{$nisnField}</div>
 			</div>
 			<div class="item">
 				<div class="label">Status</div>
 				<p>{$status}</p>
+			</div>
+			<div class="item">
+				<div class="label">TTL</div>
+				<p>{$ttlField}</p>
 			</div>
 		</div>
 		<div class="success-footer">
@@ -429,13 +419,203 @@ HTML;
 
 	$response = [
 		'login'  => $login,
-		'nama'   => $nama,
-		'nisn'   => $nisn,
-		'status' => $status,
-		'content' => $content
+		'content' => $content,
+		'responError' => $responError,
+		'nisnError' => $nisnError,
+		'passError' => $passError
 	];
 	wp_send_json($response);
 	exit;
 }
 add_action('wp_ajax_check_passed', 'check_passed');
 add_action('wp_ajax_nopriv_check_passed', 'check_passed');
+
+add_action('add_meta_boxes', function () {
+	global $post;
+	$post_type = get_post_type($post);
+
+	if ($post_type === 'data-kelulusan') {
+		add_meta_box(
+			'csv_import_box',
+			'Import Data Siswa',
+			'csv_import_callback',
+			'data-kelulusan',
+			'side',
+			'default'
+		);
+	}
+});
+
+function csv_import_callback($post) {
+	?>
+	<input type="file" id="csv_file_input" accept=".csv" style="margin-bottom: 10px;">
+	<button type="button" class="button button-primary" id="import_csv_button">Import CSV</button>
+	<p id="import_status" style="margin-top: 10px;"></p>
+	<?php
+}
+
+add_action('admin_enqueue_scripts', function ($hook) {
+	if ($hook === 'post.php' || $hook === 'post-new.php') {
+		wp_enqueue_script('csv-import-script', get_template_directory_uri() . '/js/csv-import.js', ['jquery'], null, true);
+		wp_localize_script('csv-import-script', 'csv_import', [
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'nonce' => wp_create_nonce('csv_import_nonce')
+		]);
+	}
+});
+
+add_action('wp_ajax_import_csv_data', 'handle_import_csv_data');
+function handle_import_csv_data() {
+	if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'csv_import_nonce')) {
+		wp_send_json_error(['message' => 'Nonce tidak valid']);
+	}
+
+	if (!isset($_POST['post_id']) || !isset($_FILES['csv'])) {
+		wp_send_json_error(['message' => 'Data tidak lengkap']);
+	}
+
+	$post_id = intval($_POST['post_id']);
+	$csv_file = $_FILES['csv']['tmp_name'];
+
+	if (!file_exists($csv_file)) {
+		wp_send_json_error(['message' => 'File tidak ditemukan']);
+	}
+
+	$handle = fopen($csv_file, 'r');
+  if (!$handle) {
+    return json_encode(['error' => 'Tidak bisa membuka file']);
+  }
+
+  $delimiter = ';';
+  $header = fgetcsv($handle, 0, $delimiter);
+  if (!$header) {
+    return json_encode(['error' => 'Tidak bisa baca header CSV']);
+  }
+
+  $header = array_map('trim', $header);
+
+  $data = [];
+  while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+    $row = array_map('trim', $row);
+    if (count($row) !== count($header)) {
+        continue;
+    }
+    $data[] = array_combine($header, $row);
+  }
+
+  fclose($handle);
+	delete_field('data_siswa', $post_id);
+	$repeater_data = [];
+
+	foreach ($data as $row) {
+		$password = trim($row['password']);
+    if (empty($password)) {
+        $password = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+    }
+
+		$repeater_data[] = [
+			'nama' => sanitize_text_field($row['nama']),
+			'tempat_tanggal_lahir' => sanitize_text_field($row['ttl']),
+			'nisn' => sanitize_text_field($row['nisn']),
+			'status' => sanitize_text_field($row['status'] == 'Lulus' ? 'lulus' : 'tidak-lulus'),
+			'password' => sanitize_text_field($password),
+		];
+	}
+
+	update_field('data_siswa', $repeater_data, $post_id);
+	wp_send_json_success(['message' => 'Import berhasil']);
+}
+
+function convert_csv_path_to_json($csv_path) {
+  if (!file_exists($csv_path)) {
+    return json_encode(['error' => 'File tidak ditemukan']);
+  }
+
+  $handle = fopen($csv_path, 'r');
+  if (!$handle) {
+    return json_encode(['error' => 'Tidak bisa membuka file']);
+  }
+
+  $delimiter = ';';
+  $header = fgetcsv($handle, 0, $delimiter);
+  if (!$header) {
+    return json_encode(['error' => 'Tidak bisa baca header CSV']);
+  }
+
+  $header = array_map('trim', $header);
+
+  $data = [];
+  while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+    $row = array_map('trim', $row);
+    if (count($row) !== count($header)) {
+        continue;
+    }
+    $data[] = array_combine($header, $row);
+  }
+
+  fclose($handle);
+  return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+}
+
+add_action('add_meta_boxes', function () {
+	global $post;
+	$post_type = get_post_type($post);
+
+	if ($post_type === 'data-kelulusan') {
+		add_meta_box(
+			'csv_export_box',
+			'Export Data Siswa',
+			'export_repeater_callback',
+			'data-kelulusan',
+			'side',
+			'default'
+		);
+	}
+});
+
+function export_repeater_callback($post) {
+	?>
+	<form method="post" action="" target="_blank">
+		<input type="hidden" name="export_repeater_nonce" value="<?php echo wp_create_nonce('export_repeater_nonce'); ?>">
+		<input type="hidden" name="post_id" value="<?php echo $post->ID; ?>">
+		<button type="submit" name="export_repeater" class="button button-secondary">Export ke CSV</button>
+	</form>
+	<?php
+}
+
+add_action('admin_init', function () {
+	if (isset($_POST['export_repeater'])) {
+		if (!isset($_POST['export_repeater_nonce']) || !wp_verify_nonce($_POST['export_repeater_nonce'], 'export_repeater_nonce')) {
+				wp_die('Nonce tidak valid');
+		}
+
+		$post_id = intval($_POST['post_id']);
+		if (!$post_id) {
+				wp_die('Post ID tidak valid');
+		}
+
+		$data_siswa = get_field('data_siswa', $post_id);
+		if (empty($data_siswa)) {
+				wp_die('Data kosong');
+		}
+
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=data_siswa_export_' . $post_id . '.csv');
+
+		$output = fopen('php://output', 'w');
+		fputcsv($output, ['Nama', 'Tempat & Tanggal Lahir', 'NISN', 'Status', 'Password']);
+
+		foreach ($data_siswa as $row) {
+			fputcsv($output, [
+				$row['nama'],
+				$row['tempat_tanggal_lahir'],
+				$row['nisn'],
+				$row['status'],
+				$row['password'],
+			]);
+		}
+
+		fclose($output);
+		exit;
+	}
+});
