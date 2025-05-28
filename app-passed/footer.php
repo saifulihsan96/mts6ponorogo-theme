@@ -13,7 +13,7 @@
 		
 		<footer class="footer-main"></footer>
 	</div>
-	<script src="<?php echo FTR_URI ?>/dist/js/pass.bundle.js"></script>
+	<script src="<?php echo FTR_URI ?>/dist/js/pass.bundle.js?v=<?php echo filemtime( get_template_directory() . '/dist/js/pass.bundle.js' ); ?>"></script>
 	<?php wp_footer(); ?>
 
 	</body>
