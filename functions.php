@@ -314,6 +314,17 @@ function check_passed() {
 
 	$data = get_field('data_siswa', $post_id);
 
+	date_default_timezone_set("Asia/Jakarta");
+	$countDownRaw = get_field('accessible_date', $post_id);
+	$dateUTC = new DateTime($countDownRaw, new DateTimeZone('UTC'));
+	$dateUTC->setTimezone(new DateTimeZone('Asia/Jakarta'));
+	$countDown = $dateUTC->getTimestamp();
+	$now = time();
+	$isActive = false;
+	if ($now >= $countDown) {
+		$isActive = true;
+	}
+
 	$ttlField = "";
 	$nisnField = "";
 	$nameField = "";
@@ -417,12 +428,26 @@ function check_passed() {
 	</script>
 HTML;
 
+	$dateAcessContent = <<<HTML
+	<div class="countdown-content">
+		<div class="text">
+			<h2>Informasi keterangan Kelulusan bisa di akses <span class="count"></span> lagi</h2>
+			<div class="success-footer">
+				<img src="https://madsanampo.sch.id/wp-content/uploads/2024/01/Logo-mts.svg" alt="logo">
+				<div class="text">Madrasah Tsanawiyah Negeri 6 Tahun Ajaran 2024/2025</div>
+			</div>
+		</div>
+	</div>
+HTML;
+
+	$isDisplayContent = $isActive ? $content : $dateAcessContent;
 	$response = [
 		'login'  => $login,
-		'content' => $content,
+		'content' => $isDisplayContent,
 		'responError' => $responError,
 		'nisnError' => $nisnError,
-		'passError' => $passError
+		'passError' => $passError,
+		'date' => date("Y-m-d H:i:s", $countDown),
 	];
 	wp_send_json($response);
 	exit;

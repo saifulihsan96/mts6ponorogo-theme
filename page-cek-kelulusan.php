@@ -5,12 +5,12 @@ $dataSiswa = get_field('cek_data_siswa', get_the_ID());
   <div class="login">
     <div class="login-content">
       <h2>Masuk</h2>
-      <p>Gunakan 6 digit nomer NISN (Nomer Induk Siswa Nasional) anda untuk mengakses data kelulusan</p>
+      <p>Gunakan 10 digit nomer NISN (Nomer Induk Siswa Nasional) anda untuk mengakses data kelulusan</p>
 
       <form method="post">
         <div class="field field-nisn">
           <label for="nisn">Nomer NISN</label>
-          <input type="number" name="nisn" id="nisn" placeholder="Masukkan Nomer NISN">
+          <input type="number" name="nisn" id="nisn" placeholder="Masukkan Nomer NISN" maxlength="10">
           <div class="error-text error-text-nisn"></div>
         </div>
         <div class="field field-pass">
