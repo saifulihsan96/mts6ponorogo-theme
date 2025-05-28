@@ -140,6 +140,24 @@
                     "parent_repeater": "field_6831b98244afe"
                 }
             ]
+        },
+        {
+            "key": "field_6836232525933",
+            "label": "Accessible Date",
+            "name": "accessible_date",
+            "aria-label": "",
+            "type": "date_time_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "Y-m-d H:i",
+            "return_format": "Y-m-d H:i",
+            "first_day": 1
         }
     ],
     "location": [
@@ -160,5 +178,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1748133922
+    "modified": 1748403140
 }
