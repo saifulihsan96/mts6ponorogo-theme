@@ -18,10 +18,10 @@ jQuery(function () {
     if (nisn.length === 0) {
       fieldNisn.addClass("error");
       $(".error-text-nisn").text("Nomer NISN tidak boleh kosong");
-    } else if (nisn.length < 6) {
+    } else if (nisn.length < 10) {
       fieldNisn.addClass("error");
       $(".error-text-nisn").text("Nomer yang diinputkan salah");
-    } else if (nisn.length > 6) {
+    } else if (nisn.length > 10) {
       fieldNisn.addClass("error");
       $(".error-text-nisn").text("Nomer yang diinputkan salah");
     } else if (!/^\d+$/.test(nisn)) {
@@ -61,6 +61,7 @@ jQuery(function () {
           const error = data["responError"];
           const eNisn = data["nisnError"];
           const ePass = data["passError"];
+          const setDate = data["date"];
 
           if (!loginStatus) {
             if (eNisn) {
@@ -80,7 +81,44 @@ jQuery(function () {
             setTimeout(function () {
               loginContainer.html(content);
               loader.removeClass("active");
+              updateCountdown();
             }, 2000);
+          }
+
+          const targetDateStr = setDate;
+          const targetDate = new Date(targetDateStr.replace(" ", "T"));
+
+          let interval;
+          function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+
+            if (distance <= 0) {
+              clearInterval(interval);
+              return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor(
+              (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            );
+            const minutes = Math.floor(
+              (distance % (1000 * 60 * 60)) / (1000 * 60)
+            );
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            let timeDelay = "";
+            if (days > 0) {
+              timeDelay = `${days} hari`;
+            } else if (hours > 0) {
+              timeDelay = `${hours} jam`;
+            } else if (minutes > 0) {
+              timeDelay = `${minutes} menit`;
+            } else {
+              timeDelay = `${seconds} detik`;
+            }
+
+            loginContainer.find(".count").text(timeDelay);
           }
         },
       });
