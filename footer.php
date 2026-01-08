@@ -70,7 +70,7 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 						$url   = get_permalink();
 
 						$image_id = get_post_thumbnail_id();
-						$image    = wp_get_attachment_image( $image_id, 'full' );
+						$image    = wp_get_attachment_image( $image_id, 'medium' );
 						$category = category_post( $id_post );
 						?>
 						
@@ -141,7 +141,7 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 					<?php
 
 					$logo_id = $information[ 'logo_footer' ][ 'id' ];
-					$logo    = wp_get_attachment_image( $logo_id, 'full', [ 'class' => 'footer-logo' ] );
+					$logo    = wp_get_attachment_image( $logo_id, 'medium', [ 'class' => 'footer-logo' ] );
 					echo '<a href="/">' . $logo . '</a>';
 
 					?>
@@ -188,7 +188,7 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 						<div class="column">
 
 							<div class="set-row">
-								<div class="text-head">MTs Negeri 6 Po</div>
+								<div class="text-head">MTsN 6 Ponorogo</div>
 								<ul>
 									<?php
 									
@@ -212,20 +212,44 @@ $information   = ( $content[ 'school_information' ] ) ? $content[ 'school_inform
 						<div class="column">
 
 							<div class="set-row">
-								<div class="text-head">News Artikel</div>
+								<div class="text-head">Artikel Terbaru</div>
 								<ul>
 									<?php
-									
-									$post_footer = get_field( 'post_bottom', 'option' );
-									if ( $post_footer ) {
-										foreach ( $post_footer as $post ) {
-											$post_title = get_the_title( $post );
-											$post_url   = get_permalink( $post );
+									$isNewsPost = get_field( 'post_bottom_news', 'option' );
+									if ($isNewsPost) {
+										$args = [
+											'post_type'      => 'post',
+											'posts_per_page' => 3,
+											'orderby'        => 'date',
+											'order'          => 'DESC'
+										];
 
-											echo '<li><a href="' . $post_url . '">' . $post_title . '</a></li>';
+										$query = new WP_Query($args);
+
+										if ($query->have_posts()) {
+											while ($query->have_posts()) {
+												$query->the_post();
+												$id_post = get_the_ID();
+												$title   = get_the_title( $id_post );
+												$url     = get_permalink( $id_post );
+												
+												echo '<li><a href="' . $url . '">' . $title . '</a></li>';
+											}
+											wp_reset_postdata();
+										}
+									} else {
+										$post_footer = get_field( 'post_bottom', 'option' );
+										if ( $post_footer ) {
+											foreach ( $post_footer as $key => $post ) {
+												if ($key >= 3) break;
+
+												$post_title = get_the_title( $post );
+												$post_url   = get_permalink( $post );
+												
+												echo '<li><a href="' . $post_url . '">' . $post_title . '</a></li>';
+											}
 										}
 									}
-
 									?>
 								</ul>
 							</div>

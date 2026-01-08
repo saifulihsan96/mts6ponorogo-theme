@@ -53,7 +53,7 @@ if ( $select == 'dynamis' ) {
             $url      = get_permalink( $id_post );
 
             $image_id = get_post_thumbnail_id( $id_post );
-            $image    = wp_get_attachment_image( $image_id, 'full' );
+            $image    = wp_get_attachment_image( $image_id, 'medium' );
             $category = get_the_category( $id_post );
 
             $name_cat = '';
@@ -98,7 +98,7 @@ if ( $select == 'custom' ) {
             $url      = get_permalink( $id_post );
 
             $image_id = get_post_thumbnail_id( $id_post );
-            $image    = wp_get_attachment_image( $image_id, 'full' );
+            $image    = wp_get_attachment_image( $image_id, 'medium' );
             $category = category_post( $id_post );
 
             $item_post .= <<<HTML
@@ -120,7 +120,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
 		<div class="mts-container">
             <div class="head-text">
                 <h2 class="heading5">{$head_text}</h2>

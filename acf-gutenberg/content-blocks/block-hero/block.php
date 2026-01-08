@@ -29,38 +29,89 @@ if ( ! empty( $block['align'] ) ) {
 $news_post      = get_field( 'news_post' );
 $highlight_post = get_field( 'highlight_post' );
 $popular_post   = get_field( 'popular_post' );
+$isNewPost      = get_field( 'new_post' );
 
 $inner_post_news = '';
-if ( $news_post ) {
-    foreach ( $news_post as $key => $n_post ) {
-        $image_id = get_post_thumbnail_id( $n_post->ID );
-        $image    = wp_get_attachment_image( $image_id, 'full', '', [ 'class' => 'big-image' ] );
-        $title    = get_the_title( $n_post->ID );
-        $date     = get_the_date( 'l j, F', $n_post->ID );
-        $url      = get_permalink( $n_post->ID );
-        $desc     = get_the_excerpt( $n_post->ID );
-        $description = strlen( $desc ) > 300 ? substr( $desc, 0, 250 ) . ' ...' : $desc;
-        
-        $classPost  = ( $key == 0 ) ? 'active' : '';
-        $inner_post_news .= <<<HTML
-        <div id="inner{$key}" class="inner-post {$classPost}">
-            {$image}
-            <div class="mts-container">
-                <div class="column">
-                    <div class="date-post-hero">{$date}</div>
-                    <h1><a href="{$url}">{$title}</a></h1>
-                    <p>{$description}</p>
-                    <a href="{$url}" class="button">Baca Selengkapnya</a>
-                </div>
-                <div class="column">
-                    <div class="small-post">
-                        <img src="" alt="small-hero" width="260" height="136">
-                        <h3></h3>
+if ($isNewPost) {
+    $args = [
+        'post_type'      => 'post',
+        'posts_per_page' => 2,
+        'orderby'        => 'date',
+        'order'          => 'DESC'
+    ];
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        $i = 0;
+        while ($query->have_posts()) {
+            $query->the_post();
+            $id = get_the_ID();
+            $title = get_the_title();
+            $image_id = get_post_thumbnail_id( $id );
+            $image = wp_get_attachment_image( $image_id, 'medium', '', [ 'class' => 'big-image' ] );
+            $date     = get_the_date( 'l j, F', $id );
+            $url      = get_permalink( $id );
+            $desc     = get_the_excerpt( $id );
+            $description = strlen( $desc ) > 300 ? substr( $desc, 0, 250 ) . ' ...' : $desc;
+            $classPost  = ( $i === 0 ) ? 'active' : '';
+
+            $inner_post_news .= <<<HTML
+            <div id="inner{$i}" class="inner-post {$classPost}">
+                {$image}
+                <div class="mts-container">
+                    <div class="column">
+                        <div class="date-post-hero">{$date}</div>
+                        <h1><a href="{$url}">{$title}</a></h1>
+                        <p>{$description}</p>
+                        <a href="{$url}" class="button">Baca Selengkapnya</a>
+                    </div>
+                    <div class="column">
+                        <div class="small-post">
+                            <img src="" alt="small-hero" width="260" height="136">
+                            <h3></h3>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 HTML;
+
+            $i++;
+        }
+        wp_reset_postdata();
+    }
+} else {
+    if ( $news_post ) {
+        foreach ( $news_post as $key => $n_post ) {
+            $image_id = get_post_thumbnail_id( $n_post->ID );
+            $image    = wp_get_attachment_image( $image_id, 'medium', '', [ 'class' => 'big-image' ] );
+            $title    = get_the_title( $n_post->ID );
+            $date     = get_the_date( 'l j, F', $n_post->ID );
+            $url      = get_permalink( $n_post->ID );
+            $desc     = get_the_excerpt( $n_post->ID );
+            $description = strlen( $desc ) > 300 ? substr( $desc, 0, 250 ) . ' ...' : $desc;
+            
+            $classPost  = ( $key == 0 ) ? 'active' : '';
+            $inner_post_news .= <<<HTML
+            <div id="inner{$key}" class="inner-post {$classPost}">
+                {$image}
+                <div class="mts-container">
+                    <div class="column">
+                        <div class="date-post-hero">{$date}</div>
+                        <h1><a href="{$url}">{$title}</a></h1>
+                        <p>{$description}</p>
+                        <a href="{$url}" class="button">Baca Selengkapnya</a>
+                    </div>
+                    <div class="column">
+                        <div class="small-post">
+                            <img src="" alt="small-hero" width="260" height="136">
+                            <h3></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+HTML;
+        }
     }
 }
 
@@ -68,7 +119,7 @@ $inner_post_highlight = '';
 if ( $highlight_post ) {
     foreach ( $highlight_post as $key => $h_post ) {
         $image_id = get_post_thumbnail_id( $h_post->ID );
-        $image    = wp_get_attachment_image( $image_id, 'full', '', [ 'class' => 'big-image' ] );
+        $image    = wp_get_attachment_image( $image_id, 'medium', '', [ 'class' => 'big-image' ] );
         $title    = get_the_title( $h_post->ID );
         $date     = get_the_date( 'l j, F', $h_post->ID );
         $url      = get_permalink( $h_post->ID );
@@ -102,7 +153,7 @@ $inner_post_popular = '';
 if ( $popular_post ) {
     foreach ( $popular_post as $key => $p_post ) {
         $image_id = get_post_thumbnail_id( $p_post->ID );
-        $image    = wp_get_attachment_image( $image_id, 'full', '', [ 'class' => 'big-image' ] );
+        $image    = wp_get_attachment_image( $image_id, 'medium', '', [ 'class' => 'big-image' ] );
         $title    = get_the_title( $p_post->ID );
         $date     = get_the_date( 'l j, F', $p_post->ID );
         $url      = get_permalink( $p_post->ID );
@@ -138,7 +189,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
 		<div class="hero-post">
 
             <div id="news" class="item-hero-post active_post">{$inner_post_news}</div>

@@ -38,7 +38,7 @@ if ( $optionMedia == 'image' ) {
     $itemGallery = '';
     if ( $galleries ) {
         foreach ( $galleries as $gallery ) {
-            $itemGallery .= wp_get_attachment_image( $gallery[ 'id' ], 'full', '', [ 'class' => 'gallery-item' ] );
+            $itemGallery .= wp_get_attachment_image( $gallery[ 'id' ], 'medium', '', [ 'class' => 'gallery-item' ] );
         }
     }
 
@@ -46,7 +46,7 @@ if ( $optionMedia == 'image' ) {
 
 } else if ( $optionMedia == 'video' ) {
     $image_id   = $image[ 'id' ];
-    $img_video  = wp_get_attachment_image( $image_id, 'full', '', [ 'class' => 'thumbnail-image' ] );
+    $img_video  = wp_get_attachment_image( $image_id, 'medium', '', [ 'class' => 'thumbnail-image' ] );
     $iconplay   = FTR_URI . '/assets/image/play-button.svg';
     
     $parsed_url = parse_url($urlYoutube);
@@ -117,7 +117,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
         <div class="mts-container">
             
             <div class="row-column">

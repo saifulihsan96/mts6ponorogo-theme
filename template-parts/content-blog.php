@@ -31,7 +31,7 @@ if ( $query_first->have_posts() ) :
         $url      = get_permalink( $id_post );
 
         $image_id = get_post_thumbnail_id( $id_post );
-        $image    = wp_get_attachment_image( $image_id, 'full' );
+        $image    = wp_get_attachment_image( $image_id, 'medium' );
         $category = category_post( $id_post );
 
         ?>
@@ -95,7 +95,7 @@ endif;
                             $url      = get_permalink( $get_id );
 
                             $image_id = get_post_thumbnail_id( $get_id );
-                            $image    = wp_get_attachment_image( $image_id, 'full' );
+                            $image    = wp_get_attachment_image( $image_id, 'medium' );
                             $category = category_post( $get_id );
 
                             ?>
@@ -163,7 +163,7 @@ endif;
                         $description = strlen( $desc ) > 300 ? substr( $desc, 0, 80 ) . ' ...' : $desc;
 
                         $image_id = get_post_thumbnail_id( $id_post );
-                        $image    = wp_get_attachment_image( $image_id, 'full' );
+                        $image    = wp_get_attachment_image( $image_id, 'medium' );
                         $category = category_post( $id_post );
                         ?>
 
@@ -223,7 +223,7 @@ endif;
                         $url      = get_permalink( $id_post );
 
                         $image_id = get_post_thumbnail_id( $id_post );
-                        $image    = wp_get_attachment_image( $image_id, 'full' );
+                        $image    = wp_get_attachment_image( $image_id, 'medium' );
                         $category = category_post( $id_post );
                         ?>
 
