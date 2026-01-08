@@ -67,7 +67,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
 		<div class="mts-container">
 
 			<div class="list-accordion">{$item_acc}</div>

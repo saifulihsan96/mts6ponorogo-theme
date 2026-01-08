@@ -44,7 +44,7 @@ $content       = ( $contentFooter ) ? $contentFooter : [];
 										$date  = get_the_date( 'l j, F', $postTop );
 										?>
 
-										<span class="header-post-date"><?php echo $date; ?></span>
+										<span class="header-post-date"><?php echo $date; ?></span> |
 										<span class="header-post"><strong>Latest : </strong><a href="<?php echo $url; ?>"> <?php echo $title; ?></a></span>
 
 										<?php
@@ -90,7 +90,7 @@ $content       = ( $contentFooter ) ? $contentFooter : [];
 									<?php
 
 									$custom_logo_id = get_theme_mod( 'custom_logo' );
-									$image          = wp_get_attachment_image( $custom_logo_id , 'full' );
+									$image          = wp_get_attachment_image( $custom_logo_id , 'medium' );
 
 									echo $image;
 

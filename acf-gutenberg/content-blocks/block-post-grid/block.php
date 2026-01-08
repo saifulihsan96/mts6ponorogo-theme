@@ -58,7 +58,7 @@ if ( $select == 'dynamis' ) {
             $description = strlen( $desc ) > 300 ? substr( $desc, 0, 120 ) . ' ...' : $desc;
 
             $image_id = get_post_thumbnail_id( $id_post );
-            $image    = wp_get_attachment_image( $image_id, 'full' );
+            $image    = wp_get_attachment_image( $image_id, 'medium' );
             $category = category_post( $id_post );
 
             $item_post .= <<<HTML
@@ -90,7 +90,7 @@ if ( $select == 'custom' ) {
             $description = strlen( $desc ) > 300 ? substr( $desc, 0, 120 ) . ' ...' : $desc;
 
             $image_id = get_post_thumbnail_id( $id_post );
-            $image    = wp_get_attachment_image( $image_id, 'full' );
+            $image    = wp_get_attachment_image( $image_id, 'medium' );
             $category = category_post( $id_post );
 
             $item_post .= <<<HTML
@@ -114,7 +114,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
 		<div class="mts-container">
 
             <div class="text-head">

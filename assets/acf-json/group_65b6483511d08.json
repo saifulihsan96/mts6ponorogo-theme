@@ -8,11 +8,11 @@
             "name": "post_top",
             "aria-label": "",
             "type": "post_object",
-            "instructions": "Post Show In Top Header",
+            "instructions": "Post Show In Top Header, Select Max 1 Post",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "50",
+                "width": "100",
                 "class": "",
                 "id": ""
             },
@@ -29,6 +29,26 @@
             "bidirectional_target": []
         },
         {
+            "key": "field_69601cca09024",
+            "label": "Post Bottom News",
+            "name": "post_bottom_news",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1
+        },
+        {
             "key": "field_65b64930541a0",
             "label": "Post Bottom",
             "name": "post_bottom",
@@ -36,9 +56,17 @@
             "type": "post_object",
             "instructions": "Select Max 3 Post",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69601cca09024",
+                        "operator": "!=",
+                        "value": "1"
+                    }
+                ]
+            ],
             "wrapper": {
-                "width": "50",
+                "width": "100",
                 "class": "",
                 "id": ""
             },
@@ -393,5 +421,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1706501493
+    "modified": 1767906838
 }
