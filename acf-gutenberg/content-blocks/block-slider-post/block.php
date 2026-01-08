@@ -32,26 +32,60 @@ $name_sec   = get_field( 'name_section' );
 $link       = get_field( 'link_next' );
 $link_next  = ( $link ) ? '<a href="/artikel" class="next">Selengkapnya</a>' : '';
 $sliderpost = get_field( 'post_slider' );
+$isNewPost  = get_field( 'new_post' );
 
-if ( $sliderpost && $name_sec ) {
-    foreach ( $sliderpost as $slider ) {
-        $id_post  = $slider->ID;
-        $title    = get_the_title( $id_post );
-        $url      = get_permalink( $id_post );
+if ($isNewPost) {
+    $args = [
+        'post_type'      => 'post',
+        'posts_per_page' => 6,
+        'orderby'        => 'date',
+        'order'          => 'DESC'
+    ];
 
-        $image_id = get_post_thumbnail_id( $id_post );
-        $image    = wp_get_attachment_image( $image_id, 'full' );
-        $category = category_post( $id_post );
+    $query = new WP_Query($args);
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $id       = get_the_ID();
+            $title    = get_the_title( $id );
+            $url      = get_permalink( $id );
+            $image_id = get_post_thumbnail_id( $id );
+            $image    = wp_get_attachment_image( $image_id, 'medium' );
+            $category = category_post( $id );
 
-        $itemslide .= <<<HTML
-        <div class="swiper-slide item-slide">
-            <div class="post-media">
-                {$category}
-                {$image}
+            $itemslide .= <<<HTML
+            <div class="swiper-slide item-slide">
+                <div class="post-media">
+                    {$category}
+                    {$image}
+                </div>
+                <h3 class="title-post"><a href="{$url}">{$title}</a></h3>
             </div>
-            <h3 class="title-post"><a href="{$url}">{$title}</a></h3>
-        </div>
 HTML;
+        }
+        wp_reset_postdata();
+    }
+} else {
+    if ( $sliderpost && $name_sec ) {
+        foreach ( $sliderpost as $slider ) {
+            $id_post  = $slider->ID;
+            $title    = get_the_title( $id_post );
+            $url      = get_permalink( $id_post );
+
+            $image_id = get_post_thumbnail_id( $id_post );
+            $image    = wp_get_attachment_image( $image_id, 'medium' );
+            $category = category_post( $id_post );
+
+            $itemslide .= <<<HTML
+            <div class="swiper-slide item-slide">
+                <div class="post-media">
+                    {$category}
+                    {$image}
+                </div>
+                <h3 class="title-post"><a href="{$url}">{$title}</a></h3>
+            </div>
+HTML;
+        }
     }
 }
 
@@ -61,7 +95,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
         <div class="mts-container">
             <div class="head-section">
                 <h2 class="heading5">{$name_sec}</h2>

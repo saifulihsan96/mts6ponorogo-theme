@@ -23,6 +23,27 @@ header {
           a {
             text-decoration: unset;
             font-weight: 600;
+
+            display: block;
+            width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+          }
+
+          .header-post {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+
+            strong {
+              margin-right: 3px;
+            }
+
+            @media (max-width: 767px) {
+              flex-wrap: wrap;
+            }
           }
         }
 
@@ -127,6 +148,7 @@ header {
               border-bottom: 1px solid #ddd;
               text-align: left;
               display: grid;
+              justify-content: end;
 
               svg {
                 margin: 8px;
@@ -158,13 +180,13 @@ header {
                   border-bottom: 1px solid #ddd;
                   color: $color-black;
 
-                  &::before {
+                  &::after {
                     content: "";
                   }
 
                   &:hover {
                     color: $color-green !important;
-                    &::before {
+                    &::after {
                       filter: invert(20%) sepia(100%) saturate(361%)
                         hue-rotate(96deg) brightness(98%) contrast(98%);
                     }
@@ -173,7 +195,7 @@ header {
 
                 &.menu-item-has-children {
                   a {
-                    &::before {
+                    &::after {
                       content: "";
                       background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="%23000" stroke-width="1.2" stroke-linecap="round"/></svg>');
                       background-position: center;
@@ -191,7 +213,7 @@ header {
                     background-color: $color-green;
                     color: $color-white;
 
-                    &::before {
+                    &::after {
                       filter: invert(100%) sepia(0%) saturate(7480%)
                         hue-rotate(71deg) brightness(100%) contrast(108%);
                     }
@@ -208,7 +230,6 @@ header {
 
                 li {
                   a {
-                    padding-right: 40px;
                     color: $color-gray;
                     font-weight: 500;
                     font-size: 14px;
@@ -216,7 +237,7 @@ header {
                     align-items: center;
                     justify-content: space-between;
 
-                    &::before {
+                    &::after {
                       background: unset;
                     }
                   }
@@ -233,7 +254,7 @@ header {
                   }
                   &.menu-item-has-children {
                     a {
-                      &::before {
+                      &::after {
                         content: "";
                         background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="%23000" stroke-width="1.2" stroke-linecap="round"/></svg>');
                         background-position: center;
@@ -251,7 +272,7 @@ header {
                 .sub-menu {
                   li {
                     a {
-                      &::before {
+                      &::after {
                         background: unset;
                       }
                       padding-right: 70px;
@@ -262,7 +283,7 @@ header {
                         background-color: $color-green;
                         color: $color-white;
 
-                        &::before {
+                        &::after {
                           filter: brightness(10);
                         }
                         &:hover {

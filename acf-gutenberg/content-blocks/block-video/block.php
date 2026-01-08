@@ -33,7 +33,7 @@ $image = get_field( 'image_thumbnail' );
 $videoset = '';
 if ( $video && $image ) {
     $image_id   = $image[ 'id' ];
-    $img_video  = wp_get_attachment_image( $image_id, 'full', '', [ 'class' => 'thumbnail-image' ] );
+    $img_video  = wp_get_attachment_image( $image_id, 'medium', '', [ 'class' => 'thumbnail-image' ] );
     $iconplay   = FTR_URI . '/assets/image/play-button.svg';
     
     $parsed_url = parse_url($video);
@@ -58,7 +58,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
 		<div class="mts-container">
             {$videoset}
         </div>

@@ -35,7 +35,7 @@ if ( $featured ) {
         $icon = $feature[ 'icon' ][ 'id' ];
         $head = $feature[ 'head_text' ];
         $info = $feature[ 'information_text' ];
-        $img  = wp_get_attachment_image( $icon, 'full' );
+        $img  = wp_get_attachment_image( $icon, 'medium', '', [ 'class' => 'thumbnail-icon' ] );
 
         $item_featured .= <<<HTML
         <div class="item-featured">
@@ -56,7 +56,7 @@ HTML;
  * Section 'block-hero'.
  */
 $view = <<<HTML
-	<section id="{$id}" class="{$class_name}">
+	<section id="section-{$id}" class="{$class_name}">
 		<div class="mts-container">
 
             <div class="row-featured">
