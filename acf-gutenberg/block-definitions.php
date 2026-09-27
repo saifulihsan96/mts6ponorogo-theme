@@ -106,5 +106,17 @@ add_action( 'acf/init', function() {
 			'keywords' 			=> [ 'block', 'accordion' ],
 		] );
 
+		acf_register_block_type( [
+			'name' 				=> 'block-surve',
+			'title' 			=> 'Block Surve',
+			'description' 		=> '',
+			'render_template'   => get_stylesheet_directory() . '/acf-gutenberg/content-blocks/block-surve/block.php',
+			'category' 			=> 'widgets',
+			'icon'              => 'book-alt',
+			'supports' 			=> $supports,
+			'align' 			=> [ 'left', 'right', 'full' ],
+			'keywords' 			=> [ 'block', 'surve' ],
+		] );
+
 	}
 } );
