@@ -3,7 +3,7 @@
     "title": "Block Surve",
     "fields": [
         {
-            "key": "field_6ab8a1d97df50",
+            "key": "field_6abd56050931d",
             "label": "",
             "name": "",
             "aria-label": "",
@@ -26,9 +26,9 @@
     "location": [
         [
             {
-                "param": "post_type",
+                "param": "block",
                 "operator": "==",
-                "value": "post"
+                "value": "acf\/block-surve"
             }
         ]
     ],
@@ -41,5 +41,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1790484977
+    "modified": 1790793226
 }

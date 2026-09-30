@@ -267,10 +267,10 @@ if (block_surve) {
   const step1NextBtn = block_surve.querySelector(".btn-step-1-next");
   const step2NextBtn = block_surve.querySelector(".btn-step-2-next");
   const step2PrevBtn = block_surve.querySelector(".btn-step-2-prev");
-  const kategoriSelect = block_surve.querySelector("#kategori");
+  const categorySelect = block_surve.querySelector("#kategori");
 
-  if (kategoriSelect) {
-    kategoriSelect.addEventListener("change", function () {
+  if (categorySelect) {
+    categorySelect.addEventListener("change", function () {
       if (this.value) {
         const group = this.closest(".form-group");
         if (group) group.classList.remove("has-error");
@@ -333,14 +333,14 @@ if (block_surve) {
         surveyData.step1 = formDataObj;
         window.surveyData = surveyData;
         localStorage.setItem(
-          "survei_kepuasan_data",
+          "data_satisfaction_survey",
           JSON.stringify(surveyData),
         );
-        console.log("Data Step 1 Tersimpan:", surveyData.step1);
+        console.log("Data Step 1:", surveyData.step1);
 
         goToStep(2);
       } else {
-        console.log("Form belum valid, periksa kembali field merah.");
+        console.log("Form valid");
       }
     });
   }
@@ -353,8 +353,8 @@ if (block_surve) {
       const step2DataObj = {};
       let firstErrorItem = null;
 
-      // Validate questions 1 to 11
-      for (let i = 1; i <= 11; i++) {
+      // Validate questions 1 to 19
+      for (let i = 1; i <= 19; i++) {
         const qName = "q" + i;
         const qItem = block_surve.querySelector(
           `.surve-question-item[data-question="${qName}"]`,
@@ -387,14 +387,17 @@ if (block_surve) {
             block: "center",
           });
         }
-        console.log("Silakan isi semua penilaian pada Step 2.");
+        console.log("fill in all Step 2.");
         return;
       }
 
       surveyData.step2 = step2DataObj;
       window.surveyData = surveyData;
-      localStorage.setItem("survei_kepuasan_data", JSON.stringify(surveyData));
-      console.log("Data Step 2 Tersimpan:", surveyData.step2);
+      localStorage.setItem(
+        "data_satisfaction_survey",
+        JSON.stringify(surveyData),
+      );
+      console.log("Data Step 2:", surveyData.step2);
 
       goToStep(3);
     });
@@ -466,7 +469,7 @@ if (block_surve) {
         if (firstError) {
           firstError.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-        console.log("Silakan lengkapi form Evaluasi pada Step 3.");
+        console.log("fill in all Step 3.");
         return;
       }
 
@@ -479,15 +482,65 @@ if (block_surve) {
 
       window.surveyData = surveyData;
       localStorage.setItem(
-        "survei_kepuasan_data_final",
+        "data_satisfaction_survey_final",
         JSON.stringify(surveyData),
       );
+
       console.log(
-        "SURVEY SELESAI - DATA JSON FINAL:",
+        "SURVEY FINISH - DATA JSON FINAL:",
         JSON.stringify(surveyData, null, 2),
       );
 
-      goToStep(4);
+      const submitBtn = step3Form.querySelector(".btn-step-3-submit");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        const btnText = submitBtn.querySelector("span");
+        if (btnText) btnText.textContent = "Mengirim...";
+      }
+
+      const formData = new FormData();
+      formData.append("action", "kirim_survei_layanan");
+
+      if (surveyData.step1) {
+        formData.append("nama", surveyData.step1.nama || "");
+        formData.append("kategori", surveyData.step1.kategori || "");
+        formData.append("pekerjaan", surveyData.step1.pekerjaan || "");
+      }
+
+      if (surveyData.step2) {
+        Object.keys(surveyData.step2).forEach((key) => {
+          formData.append(key, surveyData.step2[key]);
+        });
+      }
+
+      formData.append("keunggulan", surveyData.step3.keunggulan);
+      formData.append("perbaikan", surveyData.step3.perbaikan);
+      formData.append("rekomendasi", surveyData.step3.rekomendasi);
+
+      fetch("/wp-admin/admin-ajax.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success) {
+            console.log("SURVEY DATA:", result.data);
+            console.log("SURVEY SENT TO EMAIL SUCCESSFULLY!");
+            goToStep(4);
+          } else {
+            alert(
+              "Gagal mengirim survei: " + (result.data || "Terjadi kesalahan."),
+            );
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        })
+        .catch((error) => {
+          console.error("AJAX Error:", error);
+          alert("Terjadi kesalahan koneksi saat mengirim survei.");
+          if (submitBtn) submitBtn.disabled = false;
+        });
+
+      //   goToStep(4);
     });
   }
 

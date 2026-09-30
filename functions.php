@@ -644,3 +644,26 @@ add_action('admin_init', function () {
 		exit;
 	}
 });
+
+
+add_action('wp_ajax_kirim_survei_layanan', 'proses_kirim_survei_layanan');
+add_action('wp_ajax_nopriv_kirim_survei_layanan', 'proses_kirim_survei_layanan');
+
+function proses_kirim_survei_layanan() {
+	$to = 'saifulihsan1996@gmail.com';
+	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
+	$message = "hello";
+
+	$headers = array(
+		'Content-Type: text/html; charset=UTF-8',
+		'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
+	);
+
+	$sent = wp_mail($to, $subject, $message, $headers);
+
+	if ($sent) {
+			wp_send_json_success('Survei berhasil terkirim.');
+	} else {
+			wp_send_json_error('Gagal mengirimkan email.');
+	}
+}
