@@ -652,7 +652,7 @@ add_action('wp_ajax_nopriv_kirim_survei_layanan', 'proses_kirim_survei_layanan')
 function proses_kirim_survei_layanan() {
 	$to = 'saifulihsan1996@gmail.com';
 	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
-	$message = "hello";
+	$message = "hello test email";
 
 	$headers = array(
 		'Content-Type: text/html; charset=UTF-8',
