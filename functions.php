@@ -650,13 +650,40 @@ add_action('wp_ajax_kirim_survei_layanan', 'proses_kirim_survei_layanan');
 add_action('wp_ajax_nopriv_kirim_survei_layanan', 'proses_kirim_survei_layanan');
 
 function proses_kirim_survei_layanan() {
-	$to = 'saifulihsan1996@gmail.com';
+	$to = 'mtsnsampung@gmail.com';
 	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
-	$message = "hello test email";
+
+	$nama        = !empty($_POST['nama']) ? sanitize_text_field($_POST['nama']) : 'Anonim';
+	$kategori    = sanitize_text_field($_POST['kategori'] ?? '-');
+	$pekerjaan   = sanitize_text_field($_POST['pekerjaan'] ?? '-');
+	$keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
+	$perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
+	$rekomendasi = sanitize_text_field($_POST['rekomendasi'] ?? '-');
+
+	$message  = "<h2>Laporan Hasil Survei Kepuasan Layanan</h2><hr />";
+	$message .= "<h3>1. Identitas Responden</h3>";
+	$message .= "<p><strong>Nama:</strong> {$nama}</p>";
+	$message .= "<p><strong>Kategori:</strong> {$kategori}</p>";
+	$message .= "<p><strong>Pekerjaan / Instansi:</strong> {$pekerjaan}</p>";
+
+	$message .= "<h3>2. Penilaian Layanan (Skala 1 - 5)</h3>";
+	$message .= "<table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;'>";
+	$message .= "<tr bgcolor='#f2f2f2'><th align='left'>Pertanyaan</th><th>Nilai</th></tr>";
+
+	for ($i = 1; $i <= 19; $i++) {
+			$val = sanitize_text_field($_POST["q{$i}"] ?? '-');
+			$message .= "<tr><td>Pertanyaan {$i} (Q{$i})</td><td align='center'><strong>{$val}</strong></td></tr>";
+	}
+
+	$message .= "</table>";
+	$message .= "<h3>3. Evaluasi & Rekomendasi</h3>";
+	$message .= "<p><strong>Keunggulan Utama:</strong><br />" . nl2br($keunggulan) . "</p>";
+	$message .= "<p><strong>Saran Perbaikan:</strong><br />" . nl2br($perbaikan) . "</p>";
+	$message .= "<p><strong>Kepuasan Keseluruhan:</strong> {$rekomendasi}</p>";
 
 	$headers = array(
-		'Content-Type: text/html; charset=UTF-8',
-		'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
+			'Content-Type: text/html; charset=UTF-8',
+			'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
 	);
 
 	$sent = wp_mail($to, $subject, $message, $headers);
