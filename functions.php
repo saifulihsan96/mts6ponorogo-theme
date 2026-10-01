@@ -653,9 +653,14 @@ function proses_kirim_survei_layanan() {
 	$to = 'mtsnsampung@gmail.com';
 	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
 
-	$nama      = !empty($_POST['Nama']) ? sanitize_text_field($_POST['Nama']) : 'Anonim';
-	$kategori  = !empty($_POST['Kategori']) ? sanitize_text_field($_POST['Kategori']) : (!empty($_POST['kategori']) ? sanitize_text_field($_POST['kategori']) : '-');
-	$pekerjaan = !empty($_POST['Pekerjaan']) ? sanitize_text_field($_POST['Pekerjaan']) : (!empty($_POST['pekerjaan']) ? sanitize_text_field($_POST['pekerjaan']) : '-');
+	$nama_val = $_POST['nama'] ?? $_POST['Nama'] ?? $_POST['Nama_(opsional)'] ?? '';
+  $nama     = !empty($nama_val) ? sanitize_text_field($nama_val) : 'Anonim';
+
+  $kat_val  = $_POST['kategori'] ?? $_POST['Kategori'] ?? $_POST['Kategori_Responden'] ?? '';
+  $kategori = !empty($kat_val) ? sanitize_text_field($kat_val) : '-';
+
+  $pek_val   = $_POST['pekerjaan'] ?? $_POST['Pekerjaan'] ?? $_POST['Pekerjaan_/_Instansi'] ?? '';
+  $pekerjaan = !empty($pek_val) ? sanitize_text_field($pek_val) : '-';
 
 	$keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
 	$perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
