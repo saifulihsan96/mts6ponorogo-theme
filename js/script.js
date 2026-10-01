@@ -501,11 +501,12 @@ if (block_surve) {
       const formData = new FormData();
       formData.append("action", "kirim_survei_layanan");
 
-      if (surveyData.step1) {
-        Object.entries(surveyData.step1).forEach(([key, value]) => {
-          formData.append(key, value || "");
-        });
-      }
+      formData.append("nama", surveyData.step1["Nama (opsional)"] || "");
+      formData.append("Kategori", surveyData.step1["Kategori Responden"] || "");
+      formData.append(
+        "Pekerjaan",
+        surveyData.step1["Pekerjaan / Instansi"] || "",
+      );
 
       if (surveyData.step2) {
         Object.keys(surveyData.step2).forEach((key) => {
@@ -539,8 +540,6 @@ if (block_surve) {
           alert("Terjadi kesalahan koneksi saat mengirim survei.");
           if (submitBtn) submitBtn.disabled = false;
         });
-
-      //   goToStep(4);
     });
   }
 
