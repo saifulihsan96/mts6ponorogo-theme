@@ -502,9 +502,9 @@ if (block_surve) {
       formData.append("action", "kirim_survei_layanan");
 
       if (surveyData.step1) {
-        formData.append("nama", surveyData.step1.nama || "");
-        formData.append("kategori", surveyData.step1.kategori || "");
-        formData.append("pekerjaan", surveyData.step1.pekerjaan || "");
+        Object.entries(surveyData.step1).forEach(([key, value]) => {
+          formData.append(key, value || "");
+        });
       }
 
       if (surveyData.step2) {
