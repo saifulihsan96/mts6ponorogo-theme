@@ -653,9 +653,9 @@ function proses_kirim_survei_layanan() {
 	$to = 'mtsnsampung@gmail.com';
 	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
 
-	$nama        = !empty($_POST['nama']) ? sanitize_text_field($_POST['nama']) : 'Anonim';
-	$kategori    = sanitize_text_field($_POST['kategori'] ?? '-');
-	$pekerjaan   = sanitize_text_field($_POST['pekerjaan'] ?? '-');
+	$nama      = !empty($_POST['Nama_(opsional)']) ? sanitize_text_field($_POST['Nama_(opsional)']) : 'Anonim';
+	$kategori  = sanitize_text_field($_POST['Kategori_Responden'] ?? '-');
+	$pekerjaan = sanitize_text_field($_POST['Pekerjaan_/_Instansi'] ?? '-');
 	$keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
 	$perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
 	$rekomendasi = sanitize_text_field($_POST['rekomendasi'] ?? '-');
@@ -689,7 +689,7 @@ function proses_kirim_survei_layanan() {
 	$sent = wp_mail($to, $subject, $message, $headers);
 
 	if ($sent) {
-			wp_send_json_success('Survei berhasil terkirim.');
+			wp_send_json_success('Email berhasil dikirim.');
 	} else {
 			wp_send_json_error('Gagal mengirimkan email.');
 	}
