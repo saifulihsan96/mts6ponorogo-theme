@@ -654,8 +654,9 @@ function proses_kirim_survei_layanan() {
 	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
 
 	$nama      = !empty($_POST['Nama']) ? sanitize_text_field($_POST['Nama']) : 'Anonim';
-	$kategori  = sanitize_text_field($_POST['Kategori'] ?? '-');
-	$pekerjaan = sanitize_text_field($_POST['Pekerjaan'] ?? '-');
+	$kategori  = !empty($_POST['Kategori']) ? sanitize_text_field($_POST['Kategori']) : (!empty($_POST['kategori']) ? sanitize_text_field($_POST['kategori']) : '-');
+	$pekerjaan = !empty($_POST['Pekerjaan']) ? sanitize_text_field($_POST['Pekerjaan']) : (!empty($_POST['pekerjaan']) ? sanitize_text_field($_POST['pekerjaan']) : '-');
+
 	$keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
 	$perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
 	$rekomendasi = sanitize_text_field($_POST['rekomendasi'] ?? '-');
@@ -686,11 +687,14 @@ function proses_kirim_survei_layanan() {
 			'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
 	);
 
-	$sent = wp_mail($to, $subject, $message, $headers);
+	wp_send_json_success($message);
+	
 
-	if ($sent) {
-			wp_send_json_success('Email berhasil dikirim.');
-	} else {
-			wp_send_json_error('Gagal mengirimkan email.');
-	}
+	// $sent = wp_mail($to, $subject, $message, $headers);
+
+	// if ($sent) {
+	// 		wp_send_json_success('Email berhasil dikirim.');
+	// } else {
+	// 		wp_send_json_error('Gagal mengirimkan email.');
+	// }
 }
