@@ -397,23 +397,23 @@ $view = <<<HTML
                 <label>Secara keseluruhan, seberapa puas Anda terhadap pelayanan madrasah ini? <span class="required-asterisk">*</span></label>
                 <div class="radio-vertical-options">
                   <label class="radio-option">
-                    <input type="radio" name="rekomendasi" value="Ya, sangat merekomendasikan" required />
+                    <input type="radio" name="rekomendasi" value="Sangat tidak puas" required />
                     <span>Sangat tidak puas</span>
                   </label>
                   <label class="radio-option">
-                    <input type="radio" name="rekomendasi" value="Mungkin / Ragu-ragu" />
+                    <input type="radio" name="rekomendasi" value="Tidak puas" />
                     <span>Tidak puas</span>
                   </label>
                   <label class="radio-option">
-                    <input type="radio" name="rekomendasi" value="Tidak" />
+                    <input type="radio" name="rekomendasi" value="Cukup puas" />
                     <span>Cukup puas</span>
                   </label>
                   <label class="radio-option">
-                    <input type="radio" name="rekomendasi" value="Tidak" />
+                    <input type="radio" name="rekomendasi" value="Puas" />
                     <span>Puas</span>
                   </label>
                   <label class="radio-option">
-                    <input type="radio" name="rekomendasi" value="Tidak" />
+                    <input type="radio" name="rekomendasi" value="Sangat puas" />
                     <span>Sangat puas</span>
                   </label>
                 </div>

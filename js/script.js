@@ -325,7 +325,8 @@ if (block_surve) {
             errorDiv.textContent = `Wajib diisi.`;
           }
         } else {
-          formDataObj[labelName] = value;
+          const fieldKey = input.name || input.id;
+          formDataObj[fieldKey] = value;
         }
       });
 
@@ -501,12 +502,9 @@ if (block_surve) {
       const formData = new FormData();
       formData.append("action", "kirim_survei_layanan");
 
-      formData.append("nama", surveyData.step1["Nama (opsional)"] || "");
-      formData.append("Kategori", surveyData.step1["Kategori Responden"] || "");
-      formData.append(
-        "Pekerjaan",
-        surveyData.step1["Pekerjaan / Instansi"] || "",
-      );
+      formData.append("Nama", surveyData.step1["nama"] || "");
+      formData.append("Kategori", surveyData.step1["kategori"] || "");
+      formData.append("Pekerjaan", surveyData.step1["pekerjaan"] || "");
 
       if (surveyData.step2) {
         Object.keys(surveyData.step2).forEach((key) => {
