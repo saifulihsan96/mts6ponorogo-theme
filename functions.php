@@ -691,15 +691,12 @@ function proses_kirim_survei_layanan() {
 			'Content-Type: text/html; charset=UTF-8',
 			'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
 	);
-
-	wp_send_json_success($message);
 	
+	$sent = wp_mail($to, $subject, $message, $headers);
 
-	// $sent = wp_mail($to, $subject, $message, $headers);
-
-	// if ($sent) {
-	// 		wp_send_json_success('Email berhasil dikirim.');
-	// } else {
-	// 		wp_send_json_error('Gagal mengirimkan email.');
-	// }
+	if ($sent) {
+			wp_send_json_success('Email berhasil dikirim.');
+	} else {
+			wp_send_json_error('Gagal mengirimkan email.');
+	}
 }
