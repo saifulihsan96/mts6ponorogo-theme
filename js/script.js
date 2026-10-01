@@ -502,9 +502,28 @@ if (block_surve) {
       const formData = new FormData();
       formData.append("action", "kirim_survei_layanan");
 
-      formData.append("Nama", surveyData.step1["nama"] || "");
-      formData.append("Kategori", surveyData.step1["kategori"] || "");
-      formData.append("Pekerjaan", surveyData.step1["pekerjaan"] || "");
+      //   formData.append("Nama", surveyData.step1["nama"] || "");
+      //   formData.append("Kategori", surveyData.step1["kategori"] || "");
+      //   formData.append("Pekerjaan", surveyData.step1["pekerjaan"] || "");
+
+      const step1 = surveyData.step1 || {};
+
+      const valNama =
+        step1["nama"] || step1["Nama"] || step1["Nama (opsional)"] || "";
+      const valKategori =
+        step1["kategori"] ||
+        step1["Kategori"] ||
+        step1["Kategori Responden"] ||
+        "";
+      const valPekerjaan =
+        step1["pekerjaan"] ||
+        step1["Pekerjaan"] ||
+        step1["Pekerjaan / Instansi"] ||
+        "";
+
+      formData.append("nama", valNama);
+      formData.append("kategori", valKategori);
+      formData.append("pekerjaan", valPekerjaan);
 
       if (surveyData.step2) {
         Object.keys(surveyData.step2).forEach((key) => {
