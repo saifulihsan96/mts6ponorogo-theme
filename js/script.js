@@ -516,7 +516,9 @@ if (block_surve) {
       formData.append("perbaikan", surveyData.step3.perbaikan);
       formData.append("rekomendasi", surveyData.step3.rekomendasi);
 
-      fetch("/wp-admin/admin-ajax.php", {
+      const ajaxUrl = window.ajaxurl || "/wp-admin/admin-ajax.php";
+
+      fetch(ajaxUrl, {
         method: "POST",
         body: formData,
       })
