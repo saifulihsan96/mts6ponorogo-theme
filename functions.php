@@ -653,7 +653,7 @@ function proses_kirim_survei_layanan() {
 	$to = 'mtsnsampung@gmail.com';
 	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
 
-	$nama      = !empty($_POST['nama']) ? sanitize_text_field($_POST['nama']) : 'Anonim';
+	$nama      = !empty($_POST['Nama']) ? sanitize_text_field($_POST['Nama']) : 'Anonim';
 	$kategori  = sanitize_text_field($_POST['Kategori'] ?? '-');
 	$pekerjaan = sanitize_text_field($_POST['Pekerjaan'] ?? '-');
 	$keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
