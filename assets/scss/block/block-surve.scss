@@ -179,6 +179,11 @@
       align-items: center;
       gap: 36px;
 
+      @media (max-width: 767px) {
+        gap: 25px;
+        flex-wrap: wrap;
+      }
+
       .rating-option {
         display: inline-flex;
         align-items: center;
