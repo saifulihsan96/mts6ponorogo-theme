@@ -360,9 +360,24 @@ if (block_surve) {
         const qItem = block_surve.querySelector(
           `.surve-question-item[data-question="${qName}"]`,
         );
+
+        const title = qItem
+          ? qItem.querySelector(".question-title").textContent
+          : null;
+
         const checkedRadio = block_surve.querySelector(
           `input[name="${qName}"]:checked`,
         );
+
+        const checkLabels = {
+          1: "Sangat Tidak Puas",
+          2: "Tidak Puas",
+          3: "cukup puas",
+          4: "puas",
+          5: "Sangat Puas",
+        };
+
+        const checkedValue = checkLabels[checkedRadio.value];
 
         if (qItem) {
           qItem.classList.remove("has-error");
@@ -377,7 +392,7 @@ if (block_surve) {
             }
           }
         } else {
-          step2DataObj[qName] = parseInt(checkedRadio.value, 10);
+          step2DataObj[title] = checkedValue;
         }
       }
 
@@ -502,38 +517,37 @@ if (block_surve) {
       const formData = new FormData();
       formData.append("action", "kirim_survei_layanan");
 
-      //   formData.append("Nama", surveyData.step1["nama"] || "");
-      //   formData.append("Kategori", surveyData.step1["kategori"] || "");
-      //   formData.append("Pekerjaan", surveyData.step1["pekerjaan"] || "");
+      formData.append("step1", JSON.stringify(surveyData.step1 || {}));
+      formData.append("step2", JSON.stringify(surveyData.step2 || {}));
+      formData.append("step3", JSON.stringify(surveyData.step3 || {}));
 
-      const step1 = surveyData.step1 || {};
+      //  const step1 = surveyData.step1 || {};
+      //   const valNama =
+      //     step1["nama"] || step1["Nama"] || step1["Nama (opsional)"] || "";
+      //   const valKategori =
+      //     step1["kategori"] ||
+      //     step1["Kategori"] ||
+      //     step1["Kategori Responden"] ||
+      //     "";
+      //   const valPekerjaan =
+      //     step1["pekerjaan"] ||
+      //     step1["Pekerjaan"] ||
+      //     step1["Pekerjaan / Instansi"] ||
+      //     "";
 
-      const valNama =
-        step1["nama"] || step1["Nama"] || step1["Nama (opsional)"] || "";
-      const valKategori =
-        step1["kategori"] ||
-        step1["Kategori"] ||
-        step1["Kategori Responden"] ||
-        "";
-      const valPekerjaan =
-        step1["pekerjaan"] ||
-        step1["Pekerjaan"] ||
-        step1["Pekerjaan / Instansi"] ||
-        "";
+      //   formData.append("nama", valNama);
+      //   formData.append("kategori", valKategori);
+      //   formData.append("pekerjaan", valPekerjaan);
 
-      formData.append("nama", valNama);
-      formData.append("kategori", valKategori);
-      formData.append("pekerjaan", valPekerjaan);
+      //   if (surveyData.step2) {
+      //     Object.keys(surveyData.step2).forEach((key) => {
+      //       formData.append(key, surveyData.step2[key]);
+      //     });
+      //   }
 
-      if (surveyData.step2) {
-        Object.keys(surveyData.step2).forEach((key) => {
-          formData.append(key, surveyData.step2[key]);
-        });
-      }
-
-      formData.append("keunggulan", surveyData.step3.keunggulan);
-      formData.append("perbaikan", surveyData.step3.perbaikan);
-      formData.append("rekomendasi", surveyData.step3.rekomendasi);
+      //   formData.append("keunggulan", surveyData.step3.keunggulan);
+      //   formData.append("perbaikan", surveyData.step3.perbaikan);
+      //   formData.append("rekomendasi", surveyData.step3.rekomendasi);
 
       const ajaxUrl = window.ajaxurl || "/wp-admin/admin-ajax.php";
 
