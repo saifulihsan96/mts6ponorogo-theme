@@ -611,17 +611,17 @@ function export_repeater_callback($post) {
 add_action('admin_init', function () {
 	if (isset($_POST['export_repeater'])) {
 		if (!isset($_POST['export_repeater_nonce']) || !wp_verify_nonce($_POST['export_repeater_nonce'], 'export_repeater_nonce')) {
-				wp_die('Nonce tidak valid');
+			wp_die('Nonce tidak valid');
 		}
 
 		$post_id = intval($_POST['post_id']);
 		if (!$post_id) {
-				wp_die('Post ID tidak valid');
+			wp_die('Post ID tidak valid');
 		}
 
 		$data_siswa = get_field('data_siswa', $post_id);
 		if (empty($data_siswa)) {
-				wp_die('Data kosong');
+			wp_die('Data kosong');
 		}
 
 		header('Content-Type: text/csv; charset=utf-8');
@@ -645,58 +645,216 @@ add_action('admin_init', function () {
 	}
 });
 
+add_filter('use_block_editor_for_post_type', 'nonaktifkan_gutenberg_tipe_tertentu', 10, 2);
+function nonaktifkan_gutenberg_tipe_tertentu($use_block_editor, $post_type) {
+	if ($post_type === 'data-surve') {
+		return false;
+	}
+	return $use_block_editor;
+}
+
+add_action('restrict_manage_posts', 'add_download_excel_surve');
+function add_download_excel_surve($post_type) {
+	if ($post_type === 'data-surve') {
+		$download_url = wp_nonce_url(
+			add_query_arg(array('action' => 'download_data_surve_excel'), admin_url('admin-ajax.php')),
+			'download_surve_nonce'
+		);
+		echo '<a href="' . esc_url($download_url) . '" class="button button-primary" style="margin-left: 5px; margin-right: 5px;">📥 Download Data Excel</a>';
+	}
+}
+
+add_action('wp_ajax_download_data_surve_excel', 'proses_download_excel_data_surve');
+function proses_download_excel_data_surve() {
+	if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'download_surve_nonce')) {
+		wp_die('Akses ditolak (Invalid Nonce).');
+	}
+
+	if (!current_user_can('edit_posts')) {
+		wp_die('Anda tidak memiliki izin untuk mengunduh data ini.');
+	}
+
+	$args = array(
+		'post_type'      => 'data-surve',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'orderby'        => 'date',
+		'order'          => 'DESC'
+	);
+
+	$posts = get_posts($args);
+
+	$filename = 'export-data-surve-' . date('Y-m-d_H-i') . '.csv';
+	header('Content-Type: text/csv; charset=utf-8');
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+	header('Pragma: no-cache');
+	header('Expires: 0');
+
+	$output = fopen('php://output', 'w');
+	fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
+	$rows = array(
+		'id'                 => array('ID'),
+		'tanggal'            => array('Tanggal'),
+		'nama'               => array('Nama'),
+		'kategori'           => array('Kategori'),
+		'pekerjaan'          => array('Pekerjaan'),
+		'keunggulan'         => array('Keunggulan'),
+		'saran'              => array('Saran'),
+		'pelayanan_madrasah' => array('Pelayanan Madrasah'),
+	);
+
+	$max_pertanyaan = 0;
+	$posts_pertanyaan_data = array();
+
+	foreach ($posts as $post) {
+		$post_id = $post->ID;
+
+		$rows['id'][]                 = $post_id;
+		$rows['tanggal'][]            = get_the_date('Y-m-d H:i', $post_id);
+		$rows['nama'][]               = get_field('nama', $post_id) ?: '-';
+		$rows['kategori'][]           = get_field('kategori', $post_id) ?: '-';
+		$rows['pekerjaan'][]          = get_field('pekerjaan', $post_id) ?: '-';
+		$rows['keunggulan'][]         = get_field('keunggulan', $post_id) ?: '-';
+		$rows['saran'][]              = get_field('saran', $post_id) ?: '-';
+		$rows['pelayanan_madrasah'][] = get_field('pelayanan_madrasah', $post_id) ?: '-';
+
+		$pertanyaan = get_field('pertanyaan', $post_id);
+		$pertanyaan_list = array();
+
+		if (!empty($pertanyaan) && is_array($pertanyaan)) {
+			foreach ($pertanyaan as $item) {
+				$pertanyaan_list[] = is_array($item) ? ($item['text'] ?? '-') : $item;
+			}
+		}
+
+		$posts_pertanyaan_data[] = $pertanyaan_list;
+
+		if (count($pertanyaan_list) > $max_pertanyaan) {
+			$max_pertanyaan = count($pertanyaan_list);
+		}
+	}
+
+	for ($i = 0; $i < $max_pertanyaan; $i++) {
+		$pertanyaan_row = array('Pertanyaan ' . ($i + 1));
+
+		foreach ($posts_pertanyaan_data as $p_data) {
+			$pertanyaan_row[] = isset($p_data[$i]) ? $p_data[$i] : '-';
+		}
+
+		$rows['pertanyaan_' . $i] = $pertanyaan_row;
+	}
+
+	foreach ($rows as $row) {
+		fputcsv($output, $row, ';');
+	}
+
+	fclose($output);
+	exit;
+}
+
 
 add_action('wp_ajax_kirim_survei_layanan', 'proses_kirim_survei_layanan');
 add_action('wp_ajax_nopriv_kirim_survei_layanan', 'proses_kirim_survei_layanan');
 
 function proses_kirim_survei_layanan() {
-	$to = 'mtsnsampung@gmail.com';
-	$subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
+	$raw_step1 = isset($_POST['step1']) ? stripslashes($_POST['step1']) : '';
+	$step1     = is_array($raw_step1) ? $raw_step1 : json_decode($raw_step1, true);
 
-	$nama_val = $_POST['nama'] ?? $_POST['Nama'] ?? $_POST['Nama_(opsional)'] ?? '';
-  $nama     = !empty($nama_val) ? sanitize_text_field($nama_val) : 'Anonim';
+	$raw_step2 = isset($_POST['step2']) ? stripslashes($_POST['step2']) : '';
+	$step2     = is_array($raw_step2) ? $raw_step2 : json_decode($raw_step2, true);
 
-  $kat_val  = $_POST['kategori'] ?? $_POST['Kategori'] ?? $_POST['Kategori_Responden'] ?? '';
-  $kategori = !empty($kat_val) ? sanitize_text_field($kat_val) : '-';
+	$raw_step3 = isset($_POST['step3']) ? stripslashes($_POST['step3']) : '';
+	$step3     = is_array($raw_step3) ? $raw_step3 : json_decode($raw_step3, true);
 
-  $pek_val   = $_POST['pekerjaan'] ?? $_POST['Pekerjaan'] ?? $_POST['Pekerjaan_/_Instansi'] ?? '';
-  $pekerjaan = !empty($pek_val) ? sanitize_text_field($pek_val) : '-';
-
-	$keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
-	$perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
-	$rekomendasi = sanitize_text_field($_POST['rekomendasi'] ?? '-');
-
-	$message  = "<h2>Laporan Hasil Survei Kepuasan Layanan</h2><hr />";
-	$message .= "<h3>1. Identitas Responden</h3>";
-	$message .= "<p><strong>Nama:</strong> {$nama}</p>";
-	$message .= "<p><strong>Kategori:</strong> {$kategori}</p>";
-	$message .= "<p><strong>Pekerjaan / Instansi:</strong> {$pekerjaan}</p>";
-
-	$message .= "<h3>2. Penilaian Layanan (Skala 1 - 5)</h3>";
-	$message .= "<table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;'>";
-	$message .= "<tr bgcolor='#f2f2f2'><th align='left'>Pertanyaan</th><th>Nilai</th></tr>";
-
-	for ($i = 1; $i <= 19; $i++) {
-			$val = sanitize_text_field($_POST["q{$i}"] ?? '-');
-			$message .= "<tr><td>Pertanyaan {$i} (Q{$i})</td><td align='center'><strong>{$val}</strong></td></tr>";
-	}
-
-	$message .= "</table>";
-	$message .= "<h3>3. Evaluasi & Rekomendasi</h3>";
-	$message .= "<p><strong>Keunggulan Utama:</strong><br />" . nl2br($keunggulan) . "</p>";
-	$message .= "<p><strong>Saran Perbaikan:</strong><br />" . nl2br($perbaikan) . "</p>";
-	$message .= "<p><strong>Kepuasan Keseluruhan:</strong> {$rekomendasi}</p>";
-
-	$headers = array(
-			'Content-Type: text/html; charset=UTF-8',
-			'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
+	$post_data = array(
+		'post_title'    => 'Surve Data - ' . date('d-m-Y H:i:s'),
+		'post_status'   => 'publish',
+		'post_type'     => 'data-surve',
 	);
-	
-	$sent = wp_mail($to, $subject, $message, $headers);
 
-	if ($sent) {
-			wp_send_json_success('Email berhasil dikirim.');
-	} else {
-			wp_send_json_error('Gagal mengirimkan email.');
+	$post_id = wp_insert_post($post_data);
+	if (is_wp_error($post_id) || $post_id === 0) {
+		wp_send_json_error([
+			'message' => 'Gagal membuat post baru.'
+		]);
 	}
+
+	$pertanyaan_repeater = array();
+	if (!empty($step2) && is_array($step2)) {
+		foreach ($step2 as $key => $val) {
+			$answer_value = is_array($val) ? ($val['text'] ?? '') : $val;
+			$question = sanitize_text_field($key ?? '-');
+			$answer = sanitize_text_field($answer_value ?? '-');
+
+			$formatted_text = "{$question} : {$answer}";
+
+			$pertanyaan_repeater[] = array(
+				'text' => $formatted_text
+			);
+		}
+	}
+
+	update_field('nama', sanitize_text_field($step1['nama'] ?? ''), $post_id);
+	update_field('kategori', sanitize_text_field($step1['kategori'] ?? ''), $post_id);
+	update_field('pekerjaan', sanitize_text_field($step1['pekerjaan'] ?? ''), $post_id);
+	update_field('keunggulan', sanitize_text_field($step3['keunggulan'] ?? ''), $post_id);
+	update_field('saran', sanitize_text_field($step3['perbaikan'] ?? ''), $post_id);
+	update_field('pelayanan_madrasah', sanitize_text_field($step3['rekomendasi'] ?? ''), $post_id);
+	update_field('pertanyaan', $pertanyaan_repeater, $post_id);
+
+	wp_send_json_success([
+		'message' => 'Data survei berhasil disimpan!',
+		'post_id' => $post_id,
+		'data' => $step2,
+	]);
+
+	// $to = 'mtsnsampung@gmail.com';
+	// $subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
+
+	// $nama_val = $_POST['nama'] ?? $_POST['Nama'] ?? $_POST['Nama_(opsional)'] ?? '';
+  // $nama     = !empty($nama_val) ? sanitize_text_field($nama_val) : 'Anonim';
+
+  // $kat_val  = $_POST['kategori'] ?? $_POST['Kategori'] ?? $_POST['Kategori_Responden'] ?? '';
+  // $kategori = !empty($kat_val) ? sanitize_text_field($kat_val) : '-';
+
+  // $pek_val   = $_POST['pekerjaan'] ?? $_POST['Pekerjaan'] ?? $_POST['Pekerjaan_/_Instansi'] ?? '';
+  // $pekerjaan = !empty($pek_val) ? sanitize_text_field($pek_val) : '-';
+
+	// $keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
+	// $perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
+	// $rekomendasi = sanitize_text_field($_POST['rekomendasi'] ?? '-');
+
+	// $message  = "<h2>Laporan Hasil Survei Kepuasan Layanan</h2><hr />";
+	// $message .= "<h3>1. Identitas Responden</h3>";
+	// $message .= "<p><strong>Nama:</strong> {$nama}</p>";
+	// $message .= "<p><strong>Kategori:</strong> {$kategori}</p>";
+	// $message .= "<p><strong>Pekerjaan / Instansi:</strong> {$pekerjaan}</p>";
+
+	// $message .= "<h3>2. Penilaian Layanan (Skala 1 - 5)</h3>";
+	// $message .= "<table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;'>";
+	// $message .= "<tr bgcolor='#f2f2f2'><th align='left'>Pertanyaan</th><th>Nilai</th></tr>";
+
+	// for ($i = 1; $i <= 19; $i++) {
+	// 		$val = sanitize_text_field($_POST["q{$i}"] ?? '-');
+	// 		$message .= "<tr><td>Pertanyaan {$i} (Q{$i})</td><td align='center'><strong>{$val}</strong></td></tr>";
+	// }
+
+	// $message .= "</table>";
+	// $message .= "<h3>3. Evaluasi & Rekomendasi</h3>";
+	// $message .= "<p><strong>Keunggulan Utama:</strong><br />" . nl2br($keunggulan) . "</p>";
+	// $message .= "<p><strong>Saran Perbaikan:</strong><br />" . nl2br($perbaikan) . "</p>";
+	// $message .= "<p><strong>Kepuasan Keseluruhan:</strong> {$rekomendasi}</p>";
+
+	// $headers = array(
+	// 		'Content-Type: text/html; charset=UTF-8',
+	// 		'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
+	// );
+	
+	// $sent = wp_mail($to, $subject, $message, $headers);
+	// if ($sent) {
+	// 		wp_send_json_success('Email berhasil dikirim.');
+	// } else {
+	// 		wp_send_json_error('Gagal mengirimkan email.');
+	// }
 }
