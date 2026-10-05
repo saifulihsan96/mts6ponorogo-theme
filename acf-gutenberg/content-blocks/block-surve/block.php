@@ -68,7 +68,7 @@ $view = <<<HTML
               <div class="text">Langkah 1: Data Diri Responden</div>
             </div>
 
-            <form class="surve-form step-1-form" action="" method="post" novalidate>
+            <form class="surve-form form-service step-1-form" action="" method="post" novalidate>
               <div class="form-group">
                 <label for="nama">Nama (opsional)</label>
                 <input type="text" id="nama" name="nama" placeholder="Masukkan nama anda" />
@@ -115,7 +115,7 @@ $view = <<<HTML
               <div class="surve-sublabel">Keterangan: 1 (Sangat Tidak Puas), 2 (Tidak Puas), 3 (cukup puas), 4 (puas), 5 (sangat puas)</div>
             </div>
 
-            <form class="surve-form step-2-form" action="" method="post" novalidate>
+            <form class="surve-form form-service step-2-form" action="" method="post" novalidate>
               <!-- Category A -->
               <div class="surve-category-section">
                 <h3 class="category-title">A. PELAYANAN ADMINISTRASI DAN TATA USAHA</h3>
@@ -380,7 +380,7 @@ $view = <<<HTML
               </div>
             </div>
 
-            <form class="surve-form step-3-form" action="" method="post" novalidate>
+            <form class="surve-form form-service step-3-form" action="" method="post" novalidate>
               <div class="form-group">
                 <label for="keunggulan">Apa keunggulan utama dari madrasah ini? <span class="required-asterisk">*</span></label>
                 <textarea id="keunggulan" name="keunggulan" rows="4" placeholder="Tulis tanggapan anda di sini ..." required></textarea>

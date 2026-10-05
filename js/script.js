@@ -299,7 +299,7 @@ if (block_surve) {
       const formDataObj = {};
 
       fields.forEach((group) => {
-        const label = group.querySelector("label");
+        // const label = group.querySelector("label");
         const input = group.querySelector("input, select, textarea");
         const errorDiv = group.querySelector(".error-message");
 
@@ -313,9 +313,9 @@ if (block_surve) {
           group.classList.contains("isRequired");
 
         const value = input.value.trim();
-        const labelName = label
-          ? label.textContent.replace("*", "").trim()
-          : input.name;
+        // const labelName = label
+        //   ? label.textContent.replace("*", "").trim()
+        //   : input.name;
 
         if (isRequired && (value === "" || value === "0")) {
           isValid = false;
@@ -337,8 +337,6 @@ if (block_surve) {
           "data_satisfaction_survey",
           JSON.stringify(surveyData),
         );
-        console.log("Data Step 1:", surveyData.step1);
-
         goToStep(2);
       } else {
         console.log("Form valid");
@@ -354,6 +352,14 @@ if (block_surve) {
       const step2DataObj = {};
       let firstErrorItem = null;
 
+      const checkLabels = {
+        1: "Sangat Tidak Puas",
+        2: "Tidak Puas",
+        3: "cukup puas",
+        4: "puas",
+        5: "Sangat Puas",
+      };
+
       // Validate questions 1 to 19
       for (let i = 1; i <= 19; i++) {
         const qName = "q" + i;
@@ -361,23 +367,14 @@ if (block_surve) {
           `.surve-question-item[data-question="${qName}"]`,
         );
 
-        const title = qItem
-          ? qItem.querySelector(".question-title").textContent
+        const titleElement = qItem
+          ? qItem.querySelector(".question-title")
           : null;
+        const title = titleElement ? titleElement.textContent.trim() : qName;
 
         const checkedRadio = block_surve.querySelector(
           `input[name="${qName}"]:checked`,
         );
-
-        const checkLabels = {
-          1: "Sangat Tidak Puas",
-          2: "Tidak Puas",
-          3: "cukup puas",
-          4: "puas",
-          5: "Sangat Puas",
-        };
-
-        const checkedValue = checkLabels[checkedRadio.value];
 
         if (qItem) {
           qItem.classList.remove("has-error");
@@ -392,6 +389,8 @@ if (block_surve) {
             }
           }
         } else {
+          const checkedValue =
+            checkLabels[checkedRadio.value] || checkedRadio.value;
           step2DataObj[title] = checkedValue;
         }
       }
@@ -413,8 +412,6 @@ if (block_surve) {
         "data_satisfaction_survey",
         JSON.stringify(surveyData),
       );
-      console.log("Data Step 2:", surveyData.step2);
-
       goToStep(3);
     });
   }
@@ -502,11 +499,6 @@ if (block_surve) {
         JSON.stringify(surveyData),
       );
 
-      console.log(
-        "SURVEY FINISH - DATA JSON FINAL:",
-        JSON.stringify(surveyData, null, 2),
-      );
-
       const submitBtn = step3Form.querySelector(".btn-step-3-submit");
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -521,36 +513,7 @@ if (block_surve) {
       formData.append("step2", JSON.stringify(surveyData.step2 || {}));
       formData.append("step3", JSON.stringify(surveyData.step3 || {}));
 
-      //  const step1 = surveyData.step1 || {};
-      //   const valNama =
-      //     step1["nama"] || step1["Nama"] || step1["Nama (opsional)"] || "";
-      //   const valKategori =
-      //     step1["kategori"] ||
-      //     step1["Kategori"] ||
-      //     step1["Kategori Responden"] ||
-      //     "";
-      //   const valPekerjaan =
-      //     step1["pekerjaan"] ||
-      //     step1["Pekerjaan"] ||
-      //     step1["Pekerjaan / Instansi"] ||
-      //     "";
-
-      //   formData.append("nama", valNama);
-      //   formData.append("kategori", valKategori);
-      //   formData.append("pekerjaan", valPekerjaan);
-
-      //   if (surveyData.step2) {
-      //     Object.keys(surveyData.step2).forEach((key) => {
-      //       formData.append(key, surveyData.step2[key]);
-      //     });
-      //   }
-
-      //   formData.append("keunggulan", surveyData.step3.keunggulan);
-      //   formData.append("perbaikan", surveyData.step3.perbaikan);
-      //   formData.append("rekomendasi", surveyData.step3.rekomendasi);
-
       const ajaxUrl = window.ajaxurl || "/wp-admin/admin-ajax.php";
-
       fetch(ajaxUrl, {
         method: "POST",
         body: formData,
@@ -558,8 +521,7 @@ if (block_surve) {
         .then((response) => response.json())
         .then((result) => {
           if (result.success) {
-            console.log("SURVEY DATA:", result.data);
-            console.log("SURVEY SENT TO EMAIL SUCCESSFULLY!");
+            console.log("send");
             goToStep(4);
           } else {
             alert(
@@ -611,4 +573,128 @@ if (block_surve) {
     // Scroll otomatis ke bagian atas form
     block_surve.scrollIntoView({ behavior: "smooth" });
   }
+}
+
+const formBook = document.querySelector(".books-form");
+if (formBook) {
+  const blockBookForm = formBook.closest(".block-book-form");
+  const btnSendBook = formBook.querySelector(".btn-send-book");
+  const successContent = blockBookForm
+    ? blockBookForm.querySelector(".success-content")
+    : null;
+
+  // Clear error on input/change
+  const inputs = formBook.querySelectorAll("input, select, textarea");
+  inputs.forEach((input) => {
+    const clearError = () => {
+      const group = input.closest(".form-group");
+      if (group) {
+        group.classList.remove("has-error");
+        const errorDiv = group.querySelector(".error-message");
+        if (errorDiv) errorDiv.textContent = "";
+      }
+    };
+    input.addEventListener("input", clearError);
+    input.addEventListener("change", clearError);
+  });
+
+  const handleSubmit = (e) => {
+    if (e) e.preventDefault();
+
+    let isValid = true;
+    const formDataObj = {};
+    let firstErrorInput = null;
+
+    const groups = formBook.querySelectorAll(".form-group");
+    groups.forEach((group) => {
+      const input = group.querySelector("input, select, textarea");
+      const errorDiv = group.querySelector(".error-message");
+
+      if (!input) return;
+
+      group.classList.remove("has-error");
+      if (errorDiv) errorDiv.textContent = "";
+
+      const isRequired =
+        input.hasAttribute("required") ||
+        group.classList.contains("isRequired");
+      const val = input.value.trim();
+
+      if (isRequired && val === "") {
+        isValid = false;
+        group.classList.add("has-error");
+        if (errorDiv) {
+          errorDiv.textContent = "Wajib diisi.";
+        }
+        if (!firstErrorInput) {
+          firstErrorInput = input;
+        }
+      } else {
+        const fieldName = input.name || input.id;
+        formDataObj[fieldName] = val;
+      }
+    });
+
+    if (!isValid) {
+      if (firstErrorInput) {
+        firstErrorInput.focus();
+        firstErrorInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    console.log("Data Buku Tamu Tersimpan:", formDataObj);
+    localStorage.setItem("data_buku_tamu", JSON.stringify(formDataObj));
+
+    if (btnSendBook) {
+      btnSendBook.disabled = true;
+      const btnText = btnSendBook.querySelector("span");
+      if (btnText) btnText.textContent = "Mencatat...";
+    }
+
+    const formData = new FormData();
+    formData.append("action", "kirim_tamu");
+    formData.append("bukuTamu", JSON.stringify(formDataObj || {}));
+
+    const ajaxUrl = window.ajaxurl || "/wp-admin/admin-ajax.php";
+    fetch(ajaxUrl, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success) {
+          // console.log("Catat kunjungan sukses:", result.data);
+          formBook.style.display = "none";
+          if (successContent) {
+            successContent.style.display = "block";
+          }
+        } else {
+          alert(
+            "Gagal mencatat kunjungan: " +
+              (result.data?.message || result.data || "Terjadi kesalahan."),
+          );
+          if (btnSendBook) {
+            btnSendBook.disabled = false;
+            const btnText = btnSendBook.querySelector("span");
+            if (btnText) btnText.textContent = "Catat Kunjungan";
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("AJAX Error:", error);
+        alert("Terjadi kesalahan koneksi saat mencatat kunjungan.");
+        if (btnSendBook) {
+          btnSendBook.disabled = false;
+          const btnText = btnSendBook.querySelector("span");
+          if (btnText) btnText.textContent = "Catat Kunjungan";
+        }
+      });
+  };
+
+  if (btnSendBook) {
+    btnSendBook.addEventListener("click", handleSubmit);
+  }
+
+  formBook.addEventListener("submit", handleSubmit);
 }

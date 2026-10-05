@@ -1,0 +1,73 @@
+{
+    "key": "taxonomy_6ac3200bee7fc",
+    "title": "Guru \/ Staf",
+    "menu_order": 0,
+    "active": true,
+    "taxonomy": "guru--staf",
+    "object_type": [
+        "buku-tamu"
+    ],
+    "advanced_configuration": 1,
+    "import_source": "",
+    "import_date": "",
+    "labels": {
+        "name": "Guru \/ Staf",
+        "singular_name": "Guru \/ Staf",
+        "menu_name": "Guru \/ Staf",
+        "all_items": "All Guru \/ Staf",
+        "edit_item": "Edit Guru \/ Staf",
+        "view_item": "View Guru \/ Staf",
+        "update_item": "Update Guru \/ Staf",
+        "add_new_item": "Add New Guru \/ Staf",
+        "new_item_name": "New Guru \/ Staf Name",
+        "search_items": "Search Guru \/ Staf",
+        "popular_items": "Popular Guru \/ Staf",
+        "separate_items_with_commas": "Separate guru \/ staf with commas",
+        "add_or_remove_items": "Add or remove guru \/ staf",
+        "choose_from_most_used": "Choose from the most used guru \/ staf",
+        "most_used": "",
+        "not_found": "No guru \/ staf found",
+        "no_terms": "No guru \/ staf",
+        "name_field_description": "",
+        "slug_field_description": "",
+        "desc_field_description": "",
+        "items_list_navigation": "Guru \/ Staf list navigation",
+        "items_list": "Guru \/ Staf list",
+        "back_to_items": "← Go to guru \/ staf",
+        "item_link": "Guru \/ Staf Link",
+        "item_link_description": "A link to a guru \/ staf"
+    },
+    "description": "",
+    "capabilities": {
+        "manage_terms": "manage_categories",
+        "edit_terms": "manage_categories",
+        "delete_terms": "manage_categories",
+        "assign_terms": "edit_posts"
+    },
+    "public": 0,
+    "publicly_queryable": 0,
+    "hierarchical": 0,
+    "show_ui": 1,
+    "show_in_menu": 1,
+    "show_in_nav_menus": 1,
+    "show_in_rest": 1,
+    "rest_base": "",
+    "rest_namespace": "wp\/v2",
+    "rest_controller_class": "WP_REST_Terms_Controller",
+    "show_tagcloud": 1,
+    "show_in_quick_edit": 1,
+    "show_admin_column": 0,
+    "rewrite": {
+        "permalink_rewrite": "no_permalink"
+    },
+    "query_var": "taxonomy_key",
+    "query_var_name": "",
+    "default_term": {
+        "default_term_enabled": "0"
+    },
+    "sort": 0,
+    "meta_box": "default",
+    "meta_box_cb": "",
+    "meta_box_sanitize_cb": "",
+    "modified": 1791172661
+}

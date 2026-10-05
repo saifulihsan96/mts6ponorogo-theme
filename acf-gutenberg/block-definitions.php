@@ -118,5 +118,16 @@ add_action( 'acf/init', function() {
 			'keywords' 			=> [ 'block', 'surve' ],
 		] );
 
+		acf_register_block_type( [
+			'name' 				=> 'block-buku-tamu',
+			'title' 			=> 'Block Buku Tamu',
+			'description' 		=> '',
+			'render_template'   => get_stylesheet_directory() . '/acf-gutenberg/content-blocks/block-buku-tamu/block.php',
+			'category' 			=> 'widgets',
+			'icon'              => 'book-alt',
+			'supports' 			=> $supports,
+			'align' 			=> [ 'left', 'right', 'full' ],
+			'keywords' 			=> [ 'block', 'buku', 'tamu' ],
+		] );
 	}
 } );
