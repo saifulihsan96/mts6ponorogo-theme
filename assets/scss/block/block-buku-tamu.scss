@@ -2,6 +2,10 @@
   display: flex;
   gap: 50px;
 
+  @media (max-width: 991px) {
+    flex-direction: column;
+  }
+
   .block-book-text {
     background-color: #108448;
     border-radius: 10px;
@@ -10,6 +14,11 @@
     padding: 40px;
     width: 100%;
     height: fit-content;
+
+    @media (max-width: 991px) {
+      max-width: unset;
+      width: fit-content;
+    }
 
     h2 {
       font-size: 30px;
