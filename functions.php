@@ -647,7 +647,7 @@ add_action('admin_init', function () {
 
 add_filter('use_block_editor_for_post_type', 'nonaktifkan_gutenberg_tipe_tertentu', 10, 2);
 function nonaktifkan_gutenberg_tipe_tertentu($use_block_editor, $post_type) {
-	if ($post_type === 'data-surve') {
+	if ($post_type === 'data-surve' || $post_type === 'buku-tamu') {
 		return false;
 	}
 	return $use_block_editor;
@@ -809,52 +809,42 @@ function proses_kirim_survei_layanan() {
 		'data' => $step2,
 	]);
 
-	// $to = 'mtsnsampung@gmail.com';
-	// $subject = 'Hasil Survei Kepuasan Layanan Baru - MTsN 6 Ponorogo';
+	exit;
+}
 
-	// $nama_val = $_POST['nama'] ?? $_POST['Nama'] ?? $_POST['Nama_(opsional)'] ?? '';
-  // $nama     = !empty($nama_val) ? sanitize_text_field($nama_val) : 'Anonim';
+add_action('wp_ajax_kirim_tamu', 'proses_kirim_tamu');
+add_action('wp_ajax_nopriv_kirim_tamu', 'proses_kirim_tamu');
 
-  // $kat_val  = $_POST['kategori'] ?? $_POST['Kategori'] ?? $_POST['Kategori_Responden'] ?? '';
-  // $kategori = !empty($kat_val) ? sanitize_text_field($kat_val) : '-';
+function proses_kirim_tamu() {
+	$raw_buku_tamu = isset($_POST['bukuTamu']) ? stripslashes($_POST['bukuTamu']) : '';
+	$buku_tamu     = is_array($raw_buku_tamu) ? $raw_buku_tamu : json_decode($raw_buku_tamu, true);
 
-  // $pek_val   = $_POST['pekerjaan'] ?? $_POST['Pekerjaan'] ?? $_POST['Pekerjaan_/_Instansi'] ?? '';
-  // $pekerjaan = !empty($pek_val) ? sanitize_text_field($pek_val) : '-';
+	$post_data = array(
+		'post_title'    => 'Tamu - ' . $buku_tamu['nama'] . ' - ' . date('d-m-Y H:i:s'),
+		'post_status'   => 'publish',
+		'post_type'     => 'buku-tamu',
+	);
 
-	// $keunggulan  = sanitize_textarea_field($_POST['keunggulan'] ?? '-');
-	// $perbaikan   = sanitize_textarea_field($_POST['perbaikan'] ?? '-');
-	// $rekomendasi = sanitize_text_field($_POST['rekomendasi'] ?? '-');
+	$post_id = wp_insert_post($post_data);
+	if (is_wp_error($post_id) || $post_id === 0) {
+		wp_send_json_error([
+			'message' => 'Gagal membuat post baru.'
+		]);
+	}
 
-	// $message  = "<h2>Laporan Hasil Survei Kepuasan Layanan</h2><hr />";
-	// $message .= "<h3>1. Identitas Responden</h3>";
-	// $message .= "<p><strong>Nama:</strong> {$nama}</p>";
-	// $message .= "<p><strong>Kategori:</strong> {$kategori}</p>";
-	// $message .= "<p><strong>Pekerjaan / Instansi:</strong> {$pekerjaan}</p>";
+	update_field('nama', sanitize_text_field($buku_tamu['nama'] ?? ''), $post_id);
+	update_field('nomer_whatsapp', sanitize_text_field($buku_tamu['whatsapp'] ?? ''), $post_id);
+	update_field('asal_instansi__perusahaan', sanitize_text_field($buku_tamu['asal'] ?? ''), $post_id);
+	update_field('kategori_kunjungan', sanitize_text_field($buku_tamu['kategori'] ?? ''), $post_id);
+	update_field('guru__staf_yang_dituju', sanitize_text_field($buku_tamu['staf'] ?? ''), $post_id);
+	update_field('ruangan_atau_tujuan_lain', sanitize_text_field($buku_tamu['ruangan'] ?? ''), $post_id);
+	update_field('keperluan_singkat', sanitize_text_field($buku_tamu['keperluan'] ?? ''), $post_id);
 
-	// $message .= "<h3>2. Penilaian Layanan (Skala 1 - 5)</h3>";
-	// $message .= "<table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse; width:100%;'>";
-	// $message .= "<tr bgcolor='#f2f2f2'><th align='left'>Pertanyaan</th><th>Nilai</th></tr>";
+	wp_send_json_success([
+		'message' => 'Data buku tamu berhasil disimpan!',
+		'post_id' => $post_id,
+		'data' => $buku_tamu,
+	]);
 
-	// for ($i = 1; $i <= 19; $i++) {
-	// 		$val = sanitize_text_field($_POST["q{$i}"] ?? '-');
-	// 		$message .= "<tr><td>Pertanyaan {$i} (Q{$i})</td><td align='center'><strong>{$val}</strong></td></tr>";
-	// }
-
-	// $message .= "</table>";
-	// $message .= "<h3>3. Evaluasi & Rekomendasi</h3>";
-	// $message .= "<p><strong>Keunggulan Utama:</strong><br />" . nl2br($keunggulan) . "</p>";
-	// $message .= "<p><strong>Saran Perbaikan:</strong><br />" . nl2br($perbaikan) . "</p>";
-	// $message .= "<p><strong>Kepuasan Keseluruhan:</strong> {$rekomendasi}</p>";
-
-	// $headers = array(
-	// 		'Content-Type: text/html; charset=UTF-8',
-	// 		'From: Survei Layanan <no-reply@' . parse_url(get_site_url(), PHP_URL_HOST) . '>'
-	// );
-	
-	// $sent = wp_mail($to, $subject, $message, $headers);
-	// if ($sent) {
-	// 		wp_send_json_success('Email berhasil dikirim.');
-	// } else {
-	// 		wp_send_json_error('Gagal mengirimkan email.');
-	// }
+	exit;
 }
