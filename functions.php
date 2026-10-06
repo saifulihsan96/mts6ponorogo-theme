@@ -850,8 +850,15 @@ function proses_kirim_tamu() {
 }
 
 add_filter('acf/settings/show_admin', function($show_admin) {
-    if ($_SERVER['HTTP_HOST'] === 'madsanampo.sch.id') {
-        return false;
-    }
-    return $show_admin;
+	if ($_SERVER['HTTP_HOST'] === 'madsanampo.sch.id') {
+		return false;
+	}
+	return $show_admin;
 });
+
+add_action('admin_menu', function() {
+	if ($_SERVER['HTTP_HOST'] === 'madsanampo.sch.id') {
+		remove_menu_page('greenshift_dashboard');
+		remove_menu_page('edit.php?post_type=wp_block');
+	}
+}, 999);
