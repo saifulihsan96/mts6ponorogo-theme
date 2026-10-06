@@ -848,3 +848,10 @@ function proses_kirim_tamu() {
 
 	exit;
 }
+
+add_filter('acf/settings/show_admin', function($show_admin) {
+    if ($_SERVER['HTTP_HOST'] === 'madsanampo.sch.id') {
+        return false;
+    }
+    return $show_admin;
+});
