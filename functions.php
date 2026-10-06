@@ -862,3 +862,67 @@ add_action('admin_menu', function() {
 		remove_menu_page('edit.php?post_type=wp_block');
 	}
 }, 999);
+
+add_action('admin_head', function() {
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
+	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
+	echo '<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">';
+	
+	echo '<style>
+			body, #wpadminbar *, #adminmenu a, .foldertitle, h1, h2, h3, h4, h5, h6 {
+					font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+			}
+	</style>';
+});
+
+add_action('admin_menu', function() {
+	$svg_icon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLz4=';
+	add_menu_page('', '', 'read', 'custom-separator-1', '__return_false', $svg_icon, 21);
+	add_menu_page('', '', 'read', 'custom-separator-2', '__return_false', $svg_icon, 22);
+	add_menu_page('', '', 'read', 'custom-separator-3', '__return_false', $svg_icon, 23);
+}, 999);
+
+add_action('admin_head', function() {
+	echo '<style>
+		#adminmenu li[class*="toplevel_page_custom-separator-"] {
+			min-height: 0px !important;
+			height: 0px !important;
+			margin: 20px 0 !important;
+			border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+			pointer-events: none !important; /* Mencegah pemisah bisa diklik */
+		}
+		#adminmenu li[class*="toplevel_page_custom-separator-"] a {
+			display: none !important;
+		}
+	</style>';
+});
+
+add_filter('custom_menu_order', '__return_true');
+add_filter('menu_order', function($menu_order) {
+	return [
+		'index.php', 
+		'separator1',
+		
+		'edit.php?post_type=page',
+		'edit.php',
+		'upload.php',
+		'edit-comments.php',
+
+		'custom-separator-1',
+
+		'edit.php?post_type=buku-tamu',
+		'edit.php?post_type=data-kelulusan',
+		'edit.php?post_type=data-surve',
+		'theme-settings',
+
+		'custom-separator-2',
+
+		'plugins.php',
+		'users.php',
+		'options-general.php',
+		'tools.php',
+		'themes.php',
+
+		'custom-separator-3',
+	];
+});
