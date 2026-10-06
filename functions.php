@@ -768,7 +768,7 @@ function proses_kirim_survei_layanan() {
 	$step3     = is_array($raw_step3) ? $raw_step3 : json_decode($raw_step3, true);
 
 	$post_data = array(
-		'post_title'    => 'Surve Data - ' . date('d-m-Y H:i:s'),
+		'post_title'    => $step1['nama'] ? $step1['nama'] : $step1['kategori'],
 		'post_status'   => 'publish',
 		'post_type'     => 'data-surve',
 	);
@@ -820,7 +820,7 @@ function proses_kirim_tamu() {
 	$buku_tamu     = is_array($raw_buku_tamu) ? $raw_buku_tamu : json_decode($raw_buku_tamu, true);
 
 	$post_data = array(
-		'post_title'    => 'Tamu - ' . $buku_tamu['nama'] . ' - ' . date('d-m-Y H:i:s'),
+		'post_title'    => $buku_tamu['nama'],
 		'post_status'   => 'publish',
 		'post_type'     => 'buku-tamu',
 	);
@@ -926,3 +926,82 @@ add_filter('menu_order', function($menu_order) {
 		'custom-separator-3',
 	];
 });
+
+
+add_filter("manage_buku-tamu_posts_columns", function($columns) {
+	$columns['no_hp'] = 'Nomor';
+	$columns['asal'] = 'Asal';
+	$columns['kategori'] = 'Kategori';
+	$columns['dituju'] = 'Guru/Staf';
+	$columns['ruangan'] = 'Ruangan';
+	$columns['tujuan'] = 'Tujuan';
+	return $columns;
+});
+
+add_action("manage_buku-tamu_posts_custom_column", function($column, $post_id) {
+	if ($column === 'no_hp') {
+		$no_hp = get_field('nomer_whatsapp', $post_id);
+		echo $no_hp ? esc_html($no_hp) : '—';
+	}
+
+	if ($column === 'asal') {
+		$asal = get_field('asal_instansi__perusahaan', $post_id);
+		echo $asal ? esc_html($asal) : '—';
+	}
+
+	if ($column === 'kategori') {
+		$kategori = get_field('kategori_kunjungan', $post_id);
+		echo $kategori ? esc_html($kategori) : '—';
+	}
+
+	if ($column === 'dituju') {
+		$dituju = get_field('guru__staf_yang_dituju', $post_id);
+		echo $dituju ? esc_html($dituju) : '—';
+	}
+
+	if ($column === 'ruangan') {
+		$ruangan = get_field('ruangan_atau_tujuan_lain', $post_id);
+		echo $ruangan ? esc_html($ruangan) : '—';
+	}
+
+	if ($column === 'tujuan') {
+		$tujuan = get_field('keperluan_singkat', $post_id);
+		echo $tujuan ? esc_html($tujuan) : '—';
+	}
+}, 10, 2);
+
+add_filter("manage_data-surve_posts_columns", function($columns) {
+	$columns['kategori'] = 'Kategori';
+	$columns['pekerjaan'] = 'Pekerjaan';
+	$columns['keunggulan'] = 'Keunggulan';
+	$columns['saran'] = 'Saran';
+	$columns['pelayanan'] = 'Pelayanan';
+	return $columns;
+});
+
+add_action("manage_data-surve_posts_custom_column", function($column, $post_id) {
+	if ($column === 'kategori') {
+		$kategori = get_field('kategori', $post_id);
+		echo $kategori ? esc_html($kategori) : '—';
+	}
+
+	if ($column === 'pekerjaan') {
+		$pekerjaan = get_field('pekerjaan', $post_id);
+		echo $pekerjaan ? esc_html($pekerjaan) : '—';
+	}
+
+	if ($column === 'keunggulan') {
+		$keunggulan = get_field('keunggulan', $post_id);
+		echo $keunggulan ? esc_html($keunggulan) : '—';
+	}
+
+	if ($column === 'saran') {
+		$saran = get_field('saran', $post_id);
+		echo $saran ? esc_html($saran) : '—';
+	}
+
+	if ($column === 'pelayanan') {
+		$pelayanan = get_field('pelayanan_madrasah', $post_id);
+		echo $pelayanan ? esc_html($pelayanan) : '—';
+	}
+}, 10, 2);
