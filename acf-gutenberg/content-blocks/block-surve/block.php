@@ -40,7 +40,7 @@ $view = <<<HTML
       <div class="mts-container">
         <div class="surve-content">
           <div class="surve-header">
-            <h2>Survei Kepuasan Layanan</h2>
+            <h2>Survei Kepuasan Masyarakat</h2>
             <p>Masyarakat Umum, Orang Tua Wali, & Alumni</p>
           </div>
 
@@ -83,6 +83,7 @@ $view = <<<HTML
                     <option value="Orang Tua / Wali Murid">Orang Tua / Wali Murid</option>
                     <option value="Masyarakat Umum">Masyarakat Umum</option>
                     <option value="Alumni">Alumni</option>
+                    <option value="stakeholder">Stakeholder</option>
                   </select>
                 </div>
                 <div class="error-message"></div>
